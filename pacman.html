@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>網路購物吃豆人 ── 學華語向前走 第九冊 第十一課</title>
+<meta name="description" content="配合《學華語向前走》第九冊第十一課〈網路購物〉的吃豆人華語練習遊戲：看意思吃詞、課文選詞填空、照字序吃字、聽音吃詞。街機原版畫面，布理斯本亞洲語文學校遊戲館。">
+<style>
+:root{
+  --bg:#05060b;
+  --panel:#0e1020;
+  --panel-2:#171a30;
+  --line:#2a2f52;
+  --text:#e9ecff;
+  --muted:#8b93bb;
+  --pac:#ffff00;
+  --blue:#2121ff;
+  --cyan:#00e0ff;
+  --pink:#ffb8ff;
+  --red:#ff4d4d;
+  --green:#7fd68c;
+  --serif:"Noto Serif CJK TC","Noto Serif TC","Source Han Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:radial-gradient(130% 80% at 50% -15%,#15193a 0%,transparent 60%),var(--bg);
+  color:var(--text);font-family:var(--sans);font-size:15px;-webkit-text-size-adjust:100%}
+[hidden]{display:none !important}
+.wrap{max-width:540px;margin:0 auto;padding:16px 14px 34px}
+}
+
+.masthead{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
+  border-bottom:2px solid var(--blue);padding-bottom:9px;margin-bottom:12px;flex-wrap:wrap}
+.masthead h1{margin:0;font-family:var(--serif);font-size:1.5rem;font-weight:900;letter-spacing:.08em;
+  color:var(--pac);line-height:1.15}
+.masthead .lesson{font-size:.7rem;letter-spacing:.1em;color:var(--muted);text-align:right;line-height:1.7}
+.masthead .home{font-size:.78rem;color:var(--cyan);text-decoration:none;border:1px solid var(--line);border-radius:5px;padding:4px 9px}
+.masthead .home:hover{border-color:var(--cyan)}
+.masthead .home:focus-visible{outline:2px solid var(--pac);outline-offset:2px}
+
+.player{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.player label{flex:1 1 150px;display:flex;flex-direction:column;gap:3px;
+  font-size:.64rem;letter-spacing:.14em;color:var(--muted)}
+.player label{flex:1 1 130px;min-width:0}
+.player input{background:#0a0c18;color:var(--text);border:1px solid var(--line);border-radius:5px;
+  padding:7px 9px;font-family:var(--serif);font-size:.95rem;min-width:0;width:100%}
+.player input:focus-visible{outline:2px solid var(--pac);outline-offset:1px}
+
+.quiz{background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  border:1px solid var(--line);border-left:4px solid var(--pac);border-radius:0 7px 7px 0;
+  padding:10px 13px;margin-bottom:8px;min-height:92px;
+  display:flex;flex-direction:column;justify-content:center;gap:5px}
+.quiz .tagline{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.quiz .tag{font-size:.64rem;letter-spacing:.16em;color:var(--cyan)}
+.quiz .prompt{font-family:var(--serif);font-size:1.08rem;line-height:1.65;text-wrap:balance}
+.quiz .prompt em{font-style:normal;color:var(--pac);border-bottom:2px solid var(--pac);padding:0 .35em}
+.quiz .prompt b{color:var(--pac);font-weight:700}
+.quiz .prompt s{text-decoration:none;color:var(--muted)}
+.quiz .prompt .zy{font-family:var(--sans);font-size:1.5rem;letter-spacing:.14em;color:var(--pac)}
+.quiz .hint{font-size:.75rem;color:var(--muted);line-height:1.55}
+.speak{flex:0 0 auto;font-size:.76rem;padding:5px 11px}
+
+/* 四個角落的選項區：排法就是迷宮四角的縮圖，左上就是左上 */
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 9px}
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:6px;
+  padding:6px 9px;display:flex;align-items:center;gap:9px;min-height:52px}
+.ch .pos{font-size:1.1rem;color:var(--cyan);line-height:1;flex:0 0 auto}
+.ch .tx{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ch .zy{font-size:.67rem;color:var(--muted);letter-spacing:.03em;line-height:1.35;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch .w{font-family:var(--serif);font-size:1.42rem;font-weight:700;line-height:1.15;
+  color:var(--text);letter-spacing:.05em}
+.ch.wait{border-style:dashed;opacity:.55}
+.ch.wait .w{color:var(--muted)}
+.ch.gone{opacity:.34}
+.ch.gone .w{text-decoration:line-through;color:var(--red)}
+.ch .note{font-size:.6rem;color:var(--muted);margin-left:auto;text-align:right;line-height:1.3}
+
+.stats{display:flex;gap:7px;margin:0 0 9px;padding:0}
+.stats>div{flex:1 1 0;background:var(--panel);border:1px solid var(--line);border-radius:6px;
+  padding:5px 8px;text-align:center}
+.stats dt{font-size:.58rem;letter-spacing:.14em;color:var(--muted);margin:0 0 2px}
+.stats dd{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;
+  font-size:1rem;font-variant-numeric:tabular-nums;color:var(--pac)}
+.stats dd.bad{color:var(--red)}
+.stats dd.ok{color:var(--green)}
+
+.board{position:relative;background:#000;line-height:0;border-radius:6px;overflow:hidden;
+  border:1px solid var(--line)}
+canvas{display:block;width:100%;height:auto;touch-action:none}
+.veil{position:absolute;inset:0;background:rgba(5,6,11,.93);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:18px;text-align:center;line-height:1.7;overflow-y:auto}
+.veil h2{margin:0;font-size:1.35rem;letter-spacing:.16em;color:var(--pac)}
+.veil h2.bad{color:var(--red)}
+.veil p{margin:0;font-size:.82rem;color:var(--muted);max-width:34ch}
+.veil p.keys{color:var(--text);font-size:.76rem}
+.veil .big{font-size:1.6rem;color:var(--pac);font-variant-numeric:tabular-nums;
+  font-family:ui-monospace,Menlo,Consolas,monospace}
+.review{width:100%;text-align:left;display:flex;flex-direction:column;gap:5px;margin-top:2px}
+.review .row{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--red);
+  border-radius:0 5px 5px 0;padding:6px 9px}
+.review .w{font-family:var(--serif);font-size:1rem}
+.review .z{font-size:.68rem;color:var(--cyan);margin-left:.5em}
+.review .d{font-size:.73rem;color:var(--muted);margin-top:2px;line-height:1.5}
+
+button{font-family:inherit;font-size:.85rem;font-weight:600;color:var(--text);
+  background:var(--panel-2);border:1px solid var(--line);border-radius:6px;
+  padding:9px 15px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}
+button:hover{background:#242a4d;border-color:#4a5490}
+button:active{transform:translateY(1px)}
+button:focus-visible{outline:2px solid var(--pac);outline-offset:2px}
+button.primary{background:var(--pac);border-color:var(--pac);color:#1a1a00}
+button.primary:hover{background:#ffff66;border-color:#ffff66}
+
+.pad{display:grid;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(2,50px);
+  gap:7px;justify-content:center;margin:12px auto 0}
+.pad button{padding:0;font-size:1.05rem;color:var(--cyan)}
+.pad .u{grid-column:2;grid-row:1}
+.pad .l{grid-column:1;grid-row:2}
+.pad .d{grid-column:2;grid-row:2}
+.pad .r{grid-column:3;grid-row:2}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:11px}
+.sync{margin-top:9px;font-size:.74rem;color:var(--muted);text-align:center;min-height:1.3em;line-height:1.55}
+.sync.ok{color:var(--green)}
+.sync.bad{color:var(--red)}
+.sync.busy{color:var(--pac)}
+
+details.box{margin-top:11px;border:1px solid var(--line);border-radius:7px;background:var(--panel)}
+details.box>summary{cursor:pointer;padding:10px 13px;font-size:.79rem;letter-spacing:.09em;
+  color:var(--cyan);list-style:none}
+details.box>summary::-webkit-details-marker{display:none}
+details.box>summary::before{content:"◆ ";color:var(--blue)}
+.body{padding:2px 13px 14px;display:flex;flex-direction:column;gap:14px}
+fieldset{border:0;padding:0;margin:0}
+legend{font-size:.64rem;letter-spacing:.14em;color:var(--muted);padding:0 0 7px}
+.opts{display:flex;flex-wrap:wrap;gap:7px 15px}
+label.opt{display:inline-flex;align-items:center;gap:6px;font-size:.83rem;cursor:pointer}
+label.opt input{accent-color:var(--blue);width:16px;height:16px}
+.hintline{font-size:.72rem;color:var(--muted);line-height:1.7;margin:0 0 7px}
+
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:5px 6px;text-align:left;vertical-align:top}
+.tbl th{font-size:.63rem;letter-spacing:.1em;color:var(--muted);font-weight:500;white-space:nowrap}
+.tbl td.n{color:var(--muted);font-variant-numeric:tabular-nums;width:2em}
+.tbl td.w{font-family:var(--serif);font-size:.95rem;white-space:nowrap}
+.tbl td.z{color:var(--cyan);white-space:nowrap;font-size:.72rem}
+.tbl td.e{color:var(--muted)}
+.tbl td.sc,.tbl th.sc{text-align:right;font-variant-numeric:tabular-nums;color:var(--pac);white-space:nowrap}
+.tbl td.r{color:var(--pac);font-variant-numeric:tabular-nums;width:2.4em}
+.scroll{overflow-x:auto}
+.dialog p{font-family:var(--serif);font-size:.97rem;line-height:1.95;margin:0 0 .7em}
+.dialog p:last-child{margin-bottom:0}
+.dialog .who{color:var(--cyan);font-weight:700;margin-right:.5em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--panel-2);border-radius:5px;padding:4px 9px;
+  font-size:.82rem;font-family:var(--serif)}
+.chip small{font-family:var(--sans);font-size:.64rem;color:var(--cyan);margin-left:.4em}
+.pat{margin:0;padding-left:1.1em;font-size:.84rem;line-height:1.9}
+.pat b{color:var(--pac)}
+.pat .ex{display:block;font-family:var(--serif);color:var(--text);margin:.15em 0 .5em}
+.pat .en{color:var(--muted);font-size:.76rem}
+.tips{margin:0;padding-left:1.15em;font-size:.83rem;line-height:1.95}
+.tips b{color:var(--pac)}
+footer.note{margin-top:16px;padding-top:12px;border-top:1px solid var(--line);
+  font-size:.71rem;color:var(--muted);line-height:1.8}
+@media (max-width:460px){
+  /* 手機上盡量把版面壓緊，讓題目、選項區和棋盤同時看得到 */
+  .wrap{padding:8px 4px 28px}
+  .masthead{padding-bottom:6px;margin-bottom:8px}
+  .masthead h1{font-size:1.18rem}
+  .masthead .lesson{font-size:.6rem;line-height:1.5}
+  .player{gap:6px;margin-bottom:7px}
+  .player label{font-size:.58rem;gap:2px}
+  .player input{padding:5px 8px;font-size:.9rem}
+  .quiz{min-height:80px;padding:8px 11px;margin-bottom:6px}
+  .choices{gap:5px;margin-bottom:6px}
+  .ch{min-height:46px;padding:5px 7px;gap:7px}
+  .stats{gap:5px;margin-bottom:6px}
+  .stats>div{padding:3px 5px}
+  .stats dt{font-size:.54rem;margin-bottom:0}
+  .stats dd{font-size:.88rem}
+
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>網路購物吃豆人</h1>
+    <a class="home" href="index.html">← 回遊戲館</a>
+    <div class="lesson">學華語向前走　第九冊<br>第十一課　網路購物</div>
+  </header>
+
+  <div class="player">
+    <label>姓名 <input id="p-name" type="text" maxlength="12" placeholder="王小明" autocomplete="off"></label>
+    <label>學校 <input id="p-school" type="text" maxlength="30" autocomplete="off"></label>
+    <label>班級 <input id="p-class" type="text" maxlength="12" autocomplete="off"></label>
+  </div>
+
+  <section class="quiz" aria-live="polite">
+    <div class="tagline">
+      <span class="tag" id="q-tag">準備開始</span>
+      <button class="speak" id="btn-speak" hidden>🔊 再聽一次</button>
+    </div>
+    <div class="prompt" id="q-prompt">按「開始遊戲」，在迷宮裡吃出正確的詞。</div>
+    <div class="hint" id="q-hint">本課生詞 21 個　·　填空 35 句　·　習寫漢字 10 個</div>
+  </section>
+
+  <div class="choices" id="choices" aria-label="四個角落的選項">
+    <div class="ch"></div><div class="ch"></div><div class="ch"></div><div class="ch"></div>
+  </div>
+
+  <dl class="stats">
+    <div><dt>答對</dt><dd class="ok" id="s-right">0</dd></div>
+    <div><dt>答錯</dt><dd class="bad" id="s-wrong">0</dd></div>
+    <div><dt>連對</dt><dd id="s-combo">0</dd></div>
+    <div><dt>過關還差</dt><dd id="s-need">10</dd></div>
+  </dl>
+
+  <div class="board">
+    <canvas id="cv" width="560" height="720" aria-label="遊戲畫面"></canvas>
+    <div class="veil" id="veil"></div>
+  </div>
+
+  <div class="pad" aria-label="方向鍵">
+    <button class="u" data-dir="u" aria-label="上">▲</button>
+    <button class="l" data-dir="l" aria-label="左">◀</button>
+    <button class="d" data-dir="d" aria-label="下">▼</button>
+    <button class="r" data-dir="r" aria-label="右">▶</button>
+  </div>
+
+  <div class="actions">
+    <button id="btn-pause">暫停 / 繼續</button>
+    <button id="btn-restart">重新開始</button>
+  </div>
+
+  <div class="sync" id="sync"></div>
+
+  <details class="box">
+    <summary>遊戲設定</summary>
+    <div class="body">
+      <fieldset>
+        <legend>練習模式（可多選，遊戲中隨機出題）</legend>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" id="m-mean" checked> 看意思吃詞</label>
+          <label class="opt"><input type="checkbox" id="m-cloze" checked> 課文選詞填空</label>
+          <label class="opt"><input type="checkbox" id="m-order" checked> 照字序吃字</label>
+          <label class="opt"><input type="checkbox" id="m-sound" checked> 聽音／看注音吃詞</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>顯示與語音</legend>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" id="opt-zhuyin" checked> 選項區顯示注音</label>
+          <label class="opt"><input type="checkbox" id="opt-en"> 「看意思」一併顯示英譯</label>
+          <label class="opt"><input type="checkbox" id="opt-tts" checked> 「聽音」模式自動朗讀</label>
+          <label class="opt"><input type="checkbox" id="opt-sfx" checked> 音效</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>過關條件（答對幾題過一關）</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="need" value="5"> 5 題</label>
+          <label class="opt"><input type="radio" name="need" value="10" checked> 10 題</label>
+          <label class="opt"><input type="radio" name="need" value="15"> 15 題</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>基本速度（每過一關還會自動再加快一點）</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="diff" value="0.78"> 慢</label>
+          <label class="opt"><input type="radio" name="diff" value="1" checked> 標準</label>
+          <label class="opt"><input type="radio" name="diff" value="1.22"> 快</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>成績上傳</legend>
+        <p class="hintline">試算表網址與通行碼統一寫在 <b>js/config.js</b>，三個遊戲共用；成績會寫進同一份試算表的「網路購物吃豆人」工作表。</p>
+        <div class="opts">
+          <button id="btn-test">測試連線</button>
+          <button id="btn-flush">補傳待上傳成績</button>
+        </div>
+      </fieldset>
+    </div>
+  </details>
+
+  <details class="box" id="lb-box">
+    <summary>班級排行榜（讀取試算表）</summary>
+    <div class="body">
+      <p class="hintline" id="lb-msg">展開後會從試算表讀取每個人的最高分。</p>
+      <div class="scroll"><table class="tbl" id="lb-table"></table></div>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>玩法</summary>
+    <div class="body">
+      <ol class="tips">
+        <li>迷宮的<b>四個角落</b>（原本放能量豆的位置）各會出現一張詞卡，照上方的題目吃下正確的那一張。</li>
+        <li>題目下方的<b>選項區</b>就是迷宮四角的縮圖：左上格顯示的詞，就在迷宮左上角。字大、有注音，不必瞇著眼看迷宮裡的小字。</li>
+        <li>詞卡只貼在<b>走得到的那三格通道</b>上，不會蓋到牆，所以看到卡在哪裡，沿那條通道走進去就吃得到。</li>
+        <li>四個角落彼此都不在對方的必經路上，所以<b>不會被迫先輾過錯的答案</b>，走哪一條路由你決定。</li>
+        <li>這四格是<b>純答案格，不放豆子</b>，不會有豆子被詞卡蓋住、看不出吃過沒的情形。</li>
+        <li>答對之後，<b>你所在的那個角落會先空著</b>（只顯示虛線框），等你走開才長出新的詞卡 ── 不會剛答完就誤踩下一張被扣分。</li>
+        <li>答對加 <b>100 分</b>，連對再加碼，而且<b>鬼會變藍 3 秒</b>；連對 3、6、9…題變藍 <b>6 秒</b>，可以反過來吃鬼。</li>
+        <li>答錯扣 20 分、連對歸零，<b>那張錯的卡會消失</b>，正確答案還留在原位，可以繼續找。</li>
+        <li>答錯<b>不會</b>少命，被鬼碰到才少一條命，三條命用完就結束。</li>
+        <li>照字序吃字：一個字一張卡，要<b>依照詞的字序</b>一個一個吃。</li>
+        <li>路上的豆子照吃，一顆 10 分。答對設定的題數就<b>過關</b>，下一關速度會再快一點。</li>
+        <li>結束時會列出這一局的<b>錯題複習</b>。</li>
+      </ol>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>課文</summary>
+    <div class="body dialog" id="lesson-text"></div>
+  </details>
+
+  <details class="box">
+    <summary>生詞／短語（21）</summary>
+    <div class="body"><div class="scroll"><table class="tbl" id="vocab-table"></table></div></div>
+  </details>
+
+  <details class="box">
+    <summary>習寫漢字、認讀漢字與句型</summary>
+    <div class="body">
+      <fieldset>
+        <legend>習寫漢字（筆畫數／部首）</legend>
+        <div class="chips" id="hanzi-chips"></div>
+      </fieldset>
+      <fieldset>
+        <legend>認讀漢字</legend>
+        <div class="chips" id="read-chips"></div>
+      </fieldset>
+      <fieldset>
+        <legend>句型</legend>
+        <ol class="pat" id="pattern-list"></ol>
+      </fieldset>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>操作方式</summary>
+    <div class="body">
+      <ol class="tips">
+        <li>電腦：<b>方向鍵</b>或 <b>W A S D</b> 移動，<b>空白鍵</b>暫停／繼續，<b>Enter</b> 開始。</li>
+        <li>手機、平板：在遊戲畫面上<b>滑動</b>，或按畫面下方的方向鍵。</li>
+        <li>可以提前按下要轉的方向，走到路口時會自動轉彎。</li>
+      </ol>
+    </div>
+  </details>
+
+  <footer class="note">
+    教材依據：僑務委員會《學華語向前走》第九冊（9B）第十一課〈網路購物〉，課文、生詞、習寫漢字與句型均取自課本。<br>
+    成績經 js/gamekit.js 送到老師指定的 Google 試算表（姓名、學校、班級、IP 位址與本局結果）。<br>
+    Pac-Man 為 BANDAI NAMCO Entertainment Inc. 之商標，本檔僅為教學用的自製致敬作品。
+  </footer>
+</div>
+<script src="js/config.js"></script>
+<script src="js/gamekit.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* 〇、Google 試算表設定：統一在 js/config.js，這裡不必改 */
+
+var LS = {nm:"wanglu-pac-name", cl:"wanglu-pac-class", q:"wanglu-pac-queue", b:"wanglu-pac-best"};
+function lsGet(k,d){ try{ var v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+/* ============================================================
+   一、迷宮（28×31，比照街機原版）
+   ============================================================8964習維尼中華民國臺獨 */
+var RAW = [
+"############################",
+"#............##............#",
+"#.####.#####.##.#####.####.#",
+"#o####.#####.##.#####.####o#",
+"#.####.#####.##.#####.####.#",
+"#..........................#",
+"#.####.##.########.##.####.#",
+"#.####.##.########.##.####.#",
+"#......##....##....##......#",
+"######.##### ## #####.######",
+"######.##### ## #####.######",
+"######.##          ##.######",
+"######.## ###--### ##.######",
+"######.## #      # ##.######",
+"          #      #          ",
+"######.## #      # ##.######",
+"######.## ######## ##.######",
+"######.##          ##.######",
+"######.## ######## ##.######",
+"######.## ######## ##.######",
+"#............##............#",
+"#.####.#####.##.#####.####.#",
+"#.####.#####.##.#####.####.#",
+"#o..##.......  .......##..o#",
+"###.##.##.########.##.##.###",
+"###.##.##.########.##.##.###",
+"#......##....##....##......#",
+"#.##########.##.##########.#",
+"#.##########.##.##########.#",
+"#..........................#",
+"############################"
+];
+
+var COLS = 28, ROWS = 31, VIEW_ROWS = 36, OY = 3;
+var EMPTY = 0, WALL = 1, DOT = 2, POWER = 3, DOOR = 4;
+
+var base = [];
+(function(){
+  for(var r=0;r<ROWS;r++){
+    var row = [];
+    for(var c=0;c<COLS;c++){
+      var ch = RAW[r].charAt(c);
+      row.push(ch==="#" ? WALL : ch==="." ? DOT : ch==="o" ? EMPTY : ch==="-" ? DOOR : EMPTY);  /* o 的四格改當答案格 */
+    }
+    base.push(row);
+  }
+})();
+var grid = [], totalDots = 0;
+for(var _r=0;_r<ROWS;_r++) for(var _c=0;_c<COLS;_c++)
+  if(base[_r][_c]===DOT || base[_r][_c]===POWER) totalDots++;
+
+/* 四個固定答案格 ── 就在原版四顆能量豆的位置（迷宮四角）。
+   四個角落互相都不在對方的必經路線上，所以不會被迫先輾過錯的那一張。
+   詞卡直式排列、注音排在右邊，和國語課本的直排習慣一致。 */
+/* 四個答案格 ── 原版四顆能量豆所在的位置。判定範圍就是「看得到卡片的那三格通道」，
+   卡片也只畫在那三格上，不去蓋旁邊的牆 ── 玩家看到哪裡有卡，從那條通道走進去就對了。
+   四個角落互相都不在對方的必經路線上（已用 BFS 逐一驗證）。 */
+var SLOTS = [
+  {col:1,  r0:2,  r1:4,  pos:"↖", zh:"左上"},
+  {col:26, r0:2,  r1:4,  pos:"↗", zh:"右上"},
+  {col:1,  r0:21, r1:23, pos:"↙", zh:"左下"},
+  {col:26, r0:21, r1:23, pos:"↘", zh:"右下"}
+];
+function inSlot(i, c, r){
+  var s = SLOTS[i];
+  return c === s.col && r >= s.r0 && r <= s.r1;
+}
+/* 卡片蓋到的那三格不放豆子，免得豆子被蓋住、看不出吃過沒 */
+(function(){
+  for(var i=0;i<SLOTS.length;i++)
+    for(var r=SLOTS[i].r0; r<=SLOTS[i].r1; r++)
+      if(base[r][SLOTS[i].col] === DOT) base[r][SLOTS[i].col] = EMPTY;
+  totalDots = 0;
+  for(var rr2=0; rr2<ROWS; rr2++) for(var cc=0; cc<COLS; cc++)
+    if(base[rr2][cc] === DOT) totalDots++;
+})();
+
+var PAC_START  = {x:13.5, y:23.5};
+var DOOR_TILE  = {x:13,  y:12};
+var ABOVE_DOOR = {x:13.5, y:11.5};
+var HOUSE_Y    = 14.5;
+
+function wrapCol(c){ return ((c % COLS) + COLS) % COLS; }
+function tileAt(c,r){ return (r<0 || r>=ROWS) ? WALL : grid[r][wrapCol(c)]; }
+function passable(c,r,e){
+  var t = tileAt(c,r);
+  if(t===WALL) return false;
+  if(t===DOOR) return !!(e && e.ghost && (e.mode==="eyes" || e.mode==="entering" || e.mode==="leaving"));
+  return true;
+}
+
+/* ============================================================
+   二、原版配色與速度
+   ============================================================ */
+var C = {
+  wall:"#2121ff", wallFlash:"#ffffff", door:"#ffffff",
+  dot:"#ffffff", pac:"#ffff00", fright:"#2121ff", frightEnd:"#ffffff",
+  eye:"#ffffff", pupil:"#2121ff",
+  score:"#00ffff", ready:"#ffff00", over:"#ff0000", text:"#ffffff",
+  cardBg:"#f6ecd8", cardLine:"#ff3b3b", cardInk:"#15120c", cardZy:"#8a6a2f"
+};
+
+var GHOSTS = [
+  {key:"blinky", name:"Blinky", zh:"紅鬼", color:"#ff0000", scatter:{x:25,y:0},  slot:13.5, out:0.0},
+  {key:"pinky",  name:"Pinky",  zh:"粉鬼", color:"#ffb8ff", scatter:{x:2, y:0},  slot:13.5, out:3.5},
+  {key:"inky",   name:"Inky",   zh:"藍鬼", color:"#00ffff", scatter:{x:27,y:30}, slot:11.5, out:8.0},
+  {key:"clyde",  name:"Clyde",  zh:"橘鬼", color:"#ffb852", scatter:{x:0, y:30}, slot:15.5, out:13.0}
+];
+var SCHEDULE = [7,20,7,20,5,20,5,1e9];
+
+function diffMul(){
+  var r = document.querySelector('input[name="diff"]:checked');
+  return r ? parseFloat(r.value) : 1;
+}
+function needPerLevel(){
+  var r = document.querySelector('input[name="need"]:checked');
+  return r ? parseInt(r.value,10) : 10;
+}
+function speeds(level){
+  var m = diffMul(), lv = Math.min(level-1, 14);
+  var p = (5.2 + lv*0.20) * m;
+  var g = (4.8 + lv*0.22) * m;
+  if(g > p + 0.40) g = p + 0.40;
+  return {pac:p, ghost:g, fright:g*0.58, eyes:13*m, tunnel:g*0.52};
+}
+function frightTime(level){ return Math.max(1.5, 8 - (level-1)*0.5); }
+
+/* ============================================================
+   三、5×7 點陣字（畫在畫布上的英數字）
+   ============================================================ */
+var FONT = {};
+(function(){
+  var defs = {
+    "0":"01110,10001,10001,10001,10001,10001,01110",
+    "1":"00100,01100,00100,00100,00100,00100,01110",
+    "2":"01110,10001,00001,00010,00100,01000,11111",
+    "3":"11111,00010,00100,00010,00001,10001,01110",
+    "4":"00010,00110,01010,10010,11111,00010,00010",
+    "5":"11111,10000,11110,00001,00001,10001,01110",
+    "6":"00110,01000,10000,11110,10001,10001,01110",
+    "7":"11111,00001,00010,00100,01000,01000,01000",
+    "8":"01110,10001,10001,01110,10001,10001,01110",
+    "9":"01110,10001,10001,01111,00001,00010,01100",
+    "A":"01110,10001,10001,11111,10001,10001,10001",
+    "B":"11110,10001,10001,11110,10001,10001,11110",
+    "C":"01110,10001,10000,10000,10000,10001,01110",
+    "D":"11100,10010,10001,10001,10001,10010,11100",
+    "E":"11111,10000,10000,11110,10000,10000,11111",
+    "F":"11111,10000,10000,11110,10000,10000,10000",
+    "G":"01110,10001,10000,10111,10001,10001,01111",
+    "H":"10001,10001,10001,11111,10001,10001,10001",
+    "I":"01110,00100,00100,00100,00100,00100,01110",
+    "J":"00111,00010,00010,00010,00010,10010,01100",
+    "K":"10001,10010,10100,11000,10100,10010,10001",
+    "L":"10000,10000,10000,10000,10000,10000,11111",
+    "M":"10001,11011,10101,10101,10001,10001,10001",
+    "N":"10001,11001,10101,10011,10001,10001,10001",
+    "O":"01110,10001,10001,10001,10001,10001,01110",
+    "P":"11110,10001,10001,11110,10000,10000,10000",
+    "Q":"01110,10001,10001,10001,10101,10010,01101",
+    "R":"11110,10001,10001,11110,10100,10010,10001",
+    "S":"01111,10000,10000,01110,00001,00001,11110",
+    "T":"11111,00100,00100,00100,00100,00100,00100",
+    "U":"10001,10001,10001,10001,10001,10001,01110",
+    "V":"10001,10001,10001,10001,10001,01010,00100",
+    "W":"10001,10001,10001,10101,10101,11011,10001",
+    "X":"10001,10001,01010,00100,01010,10001,10001",
+    "Y":"10001,10001,01010,00100,00100,00100,00100",
+    "Z":"11111,00001,00010,00100,01000,10000,11111",
+    "-":"00000,00000,00000,11111,00000,00000,00000",
+    "+":"00000,00100,00100,11111,00100,00100,00000",
+    "!":"00100,00100,00100,00100,00100,00000,00100",
+    ".":"00000,00000,00000,00000,00000,01100,01100",
+    "/":"00001,00010,00010,00100,01000,01000,10000",
+    " ":"00000,00000,00000,00000,00000,00000,00000"
+  };
+  for(var ch in defs){
+    if(!Object.prototype.hasOwnProperty.call(defs,ch)) continue;
+    FONT[ch] = defs[ch].split(",").map(function(s){ return parseInt(s,2); });
+  }
+})();
+
+/* ============================================================
+   四、教材資料（第九冊 第十一課 網路購物）
+   ============================================================ */
+
+var LESSON = "第九冊 第十一課 網路購物";
+
+/* 課文對話：[說話者, 內容] */
+var TEXT = [
+["方晨","媽媽，家裡的牙膏、衛生紙和洗髮精都快用光了！"],
+["媽媽","不只是日用品，連醬油、鹽和油也得買了。但是，最近實在太忙了，一直沒有時間去買。"],
+["方晨","為什麼不在網路上買呢？現在用這種方式來買東西的人很多，只要上網挑一挑就可以把東西買回來了，既省時又方便。"],
+["媽媽","在網路上買東西，看不到、摸不到，萬一品質不好，怎麼辦？"],
+["方晨","一般來說，不滿意可以退貨。你記得我上次買了一件襯衫，收到以後，發現衣服的顏色和網站的圖片不一樣，就把貨退了。"],
+["媽媽","退貨要不要付運費？"],
+["方晨","服務好的網站退貨不必付運費。"],
+["媽媽","聽起來不錯，不過網路購物會不會比較貴？"],
+["方晨","購物網站常常有促銷的活動，只要多看幾家網站來比較價錢，就可以買到便宜的東西。"],
+["媽媽","你就幫我把這些東西買回來吧！"],
+["方晨","我剛好有折價券，現在買，過幾天就收到了。"]
+];
+
+/* 生詞：n 編號｜w 詞語｜z 注音（逐字，空格分隔）｜p 拼音｜e 課本英譯｜d 中文說明 */
+var WORDS = [
+{n:1,  w:"牙膏",   z:"ㄧㄚˊ ㄍㄠ",            p:"yá gāo",        e:"toothpaste",                         d:"刷牙時擠出來用的膏狀用品"},
+{n:2,  w:"洗髮精", z:"ㄒㄧˇ ㄈㄚˇ ㄐㄧㄥ",     p:"xǐ fǎ jīng",    e:"shampoo",                            d:"洗頭髮用的清潔用品"},
+{n:3,  w:"光",     z:"ㄍㄨㄤ",                p:"guāng",         e:"use up, out",                        d:"用完、吃完，一點也不剩，常說「用光」「吃光」"},
+{n:4,  w:"日用品", z:"ㄖˋ ㄩㄥˋ ㄆㄧㄣˇ",     p:"rì yòng pǐn",   e:"item of daily use",                  d:"每天生活都會用到的東西"},
+{n:5,  w:"醬油",   z:"ㄐㄧㄤˋ ㄧㄡˊ",         p:"jiàng yóu",     e:"soy sauce",                          d:"用黃豆做的調味料，顏色黑褐、味道鹹"},
+{n:6,  w:"鹽",     z:"ㄧㄢˊ",                 p:"yán",           e:"salt",                               d:"做菜用的白色顆粒調味料，味道鹹"},
+{n:7,  w:"挑",     z:"ㄊㄧㄠ",                p:"tiāo",          e:"select",                             d:"從很多東西裡面選出自己想要的"},
+{n:8,  w:"省時",   z:"ㄕㄥˇ ㄕˊ",             p:"shěng shí",     e:"save time",                          d:"花的時間比較少，不浪費時間"},
+{n:9,  w:"摸",     z:"ㄇㄛ",                  p:"mō",            e:"touch",                              d:"用手去碰、去感覺東西"},
+{n:10, w:"萬一",   z:"ㄨㄢˋ ㄧ",              p:"wàn yī",        e:"in case",                            d:"表示機會很小、但還是有可能發生的假設"},
+{n:11, w:"滿意",   z:"ㄇㄢˇ ㄧˋ",             p:"mǎn yì",        e:"satisfy",                            d:"覺得很好，合乎自己的要求"},
+{n:12, w:"退貨",   z:"ㄊㄨㄟˋ ㄏㄨㄛˋ",       p:"tuì huò",       e:"return an item",                     d:"把買到的東西還給賣的人，拿回錢"},
+{n:13, w:"襯衫",   z:"ㄔㄣˋ ㄕㄢ",            p:"chèn shān",     e:"shirt",                              d:"有領子、前面扣扣子的上衣"},
+{n:14, w:"網站",   z:"ㄨㄤˇ ㄓㄢˋ",           p:"wǎng zhàn",     e:"website",                            d:"網路上提供資料或服務的地方"},
+{n:15, w:"圖片",   z:"ㄊㄨˊ ㄆㄧㄢˋ",         p:"tú piàn",       e:"picture",                            d:"照片或畫出來的圖"},
+{n:16, w:"運費",   z:"ㄩㄣˋ ㄈㄟˋ",           p:"yùn fèi",       e:"shipping cost",                      d:"把東西送到你手上要付的錢"},
+{n:17, w:"服務",   z:"ㄈㄨˊ ㄨˋ",             p:"fú wù",         e:"service",                            d:"為別人做事、幫別人處理需要"},
+{n:18, w:"購物",   z:"ㄍㄡˋ ㄨˋ",             p:"gòu wù",        e:"shopping",                           d:"買東西"},
+{n:19, w:"促銷",   z:"ㄘㄨˋ ㄒㄧㄠ",          p:"cù xiāo",       e:"promotion, sale",                    d:"商家用減價等方法，讓東西賣得更多"},
+{n:20, w:"比較",   z:"ㄅㄧˇ ㄐㄧㄠˋ",         p:"bǐ jiào",       e:"compare (verb)",                     d:"把兩個以上的東西放在一起，看哪個好"},
+{n:21, w:"折價券", z:"ㄓㄜˊ ㄐㄧㄚˋ ㄑㄩㄢˋ", p:"zhé jià quàn",  e:"coupon",                             d:"買東西時可以少付一些錢的票券"}
+];
+
+/* 習寫漢字：c 字｜z 注音｜p 拼音｜s 筆畫數｜r 部首 */
+var HANZI = [
+{c:"光", z:"ㄍㄨㄤ",  p:"guāng", s:6,  r:"儿"},
+{c:"髮", z:"ㄈㄚˇ",   p:"fǎ",    s:15, r:"髟"},
+{c:"挑", z:"ㄊㄧㄠ",  p:"tiāo",  s:9,  r:"手"},
+{c:"摸", z:"ㄇㄛ",    p:"mō",    s:14, r:"手"},
+{c:"衫", z:"ㄕㄢ",    p:"shān",  s:8,  r:"衣"},
+{c:"務", z:"ㄨˋ",     p:"wù",    s:11, r:"力"},
+{c:"購", z:"ㄍㄡˋ",   p:"gòu",   s:17, r:"貝"},
+{c:"促", z:"ㄘㄨˋ",   p:"cù",    s:9,  r:"人"},
+{c:"銷", z:"ㄒㄧㄠ",  p:"xiāo",  s:15, r:"金"},
+{c:"券", z:"ㄑㄩㄢˋ", p:"quàn",  s:8,  r:"刀"}
+];
+
+/* 認讀漢字：sc 為簡化字對照 */
+var READ = [
+{c:"膏", z:"ㄍㄠ",    p:"gāo"},
+{c:"醬", z:"ㄐㄧㄤˋ", p:"jiàng", sc:"酱"},
+{c:"鹽", z:"ㄧㄢˊ",   p:"yán",   sc:"盐"},
+{c:"襯", z:"ㄔㄣˋ",   p:"chèn",  sc:"衬"}
+];
+
+/* 選詞填空：＿＿為空格，答案必須是生詞表裡的詞 */
+var SENTS = [
+["媽媽，家裡的＿＿、衛生紙和洗髮精都快用光了！","牙膏"],
+["家裡的牙膏、衛生紙和＿＿＿都快用光了！","洗髮精"],
+["家裡的牙膏和衛生紙都快用＿了！","光"],
+["不只是＿＿＿，連醬油、鹽和油也得買了。","日用品"],
+["不只是日用品，連＿＿、鹽和油也得買了。","醬油"],
+["不只是日用品，連醬油、＿和油也得買了。","鹽"],
+["只要上網＿一挑就可以把東西買回來了。","挑"],
+["在網路上買東西既＿＿又方便。","省時"],
+["在網路上買東西，看不到、＿不到。","摸"],
+["在網路上買東西，＿＿品質不好，怎麼辦？","萬一"],
+["一般來說，不＿＿可以退貨。","滿意"],
+["一般來說，不滿意可以＿＿。","退貨"],
+["我上次買了一件＿＿，收到以後發現顏色不一樣。","襯衫"],
+["發現衣服的顏色和＿＿的圖片不一樣。","網站"],
+["發現衣服的顏色和網站的＿＿不一樣。","圖片"],
+["退貨要不要付＿＿？","運費"],
+["＿＿好的網站退貨不必付運費。","服務"],
+["聽起來不錯，不過網路＿＿會不會比較貴？","購物"],
+["購物網站常常有＿＿的活動。","促銷"],
+["多看幾家網站來＿＿價錢，就可以買到便宜的東西。","比較"],
+["我剛好有＿＿＿，現在買，過幾天就收到了。","折價券"],
+["你不要這麼浪費，這包衛生紙快被你用＿了！","光"],
+["哥哥餓得不得了，把桌上的蛋糕都吃＿了。","光"],
+["媽媽：冰箱裡沒有牛奶了嗎？書霆：對，因為被喝＿了。","光"],
+["媽媽有很多超市＿＿的折價券。","促銷"],
+["那家餐廳的＿＿很好，客人都很滿意。","服務"],
+["那家餐廳的服務很好，客人都很＿＿。","滿意"],
+["下雪的時候走路要小心，＿＿跌倒了就糟糕了。","萬一"],
+["＿＿發生火災，我們要馬上打電話給消防人員。","萬一"],
+["夏天吃東西要注意，＿＿吃了不新鮮的東西就會拉肚子。","萬一"],
+["做菜的時候放一點＿，味道才夠。","鹽"],
+["買東西以前先＿＿價錢，比較不會吃虧。","比較"],
+["東西送到家裡還要再付一百元的＿＿。","運費"],
+["網路＿＿很方便，可以買洗髮精、襯衫以及許多日用品。","購物"],
+["你可以上網慢慢＿，選一件自己喜歡的衣服。","挑"]
+];
+
+/* 句型 */
+var PATTERNS = [
+{p:"V＋光", e:"used up / finished", ex:["這包衛生紙快被你用<b>光</b>了！","哥哥把桌上的蛋糕都吃<b>光</b>了。"]},
+{p:"不只……，連……也……", e:"not only…, but also…", ex:["<b>不只</b>是日用品，<b>連</b>醬油、鹽和油<b>也</b>得買了。","<b>不只</b>紙類可以回收，<b>連</b>塑膠和玻璃<b>也</b>可以回收。"]},
+{p:"萬一……", e:"in case…", ex:["在網路上買東西，<b>萬一</b>品質不好，怎麼辦？","下雪的時候走路要小心，<b>萬一</b>跌倒了就糟糕了。"]}
+];
+
+/* ============================================================
+   五、索引與頁面內容
+   ============================================================ */
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+var BY_W = {}, CHARZ = {}, CHARINFO = {};
+WORDS.forEach(function(o){
+  BY_W[o.w] = o;
+  var zs = o.z.split(/\s+/);
+  for(var i=0;i<o.w.length;i++){
+    var c = o.w.charAt(i);
+    if(!CHARZ[c] && zs[i]) CHARZ[c] = zs[i];
+  }
+});
+HANZI.forEach(function(h){ CHARZ[h.c] = h.z; CHARINFO[h.c] = h; });
+READ.forEach(function(h){ if(!CHARZ[h.c]) CHARZ[h.c] = h.z; });
+
+var ALL_CHARS = (function(){
+  var m = {}, out = [];
+  WORDS.forEach(function(o){
+    for(var i=0;i<o.w.length;i++){ var c=o.w.charAt(i); if(!m[c]){ m[c]=1; out.push(c); } }
+  });
+  READ.forEach(function(h){ if(!m[h.c]){ m[h.c]=1; out.push(h.c); } });
+  HANZI.forEach(function(h){ if(!m[h.c]){ m[h.c]=1; out.push(h.c); } });
+  return out;
+})();
+
+$("lesson-text").innerHTML = TEXT.map(function(t){
+  return "<p><span class='who'>" + esc(t[0]) + "：</span>" + esc(t[1]) + "</p>";
+}).join("");
+
+$("vocab-table").innerHTML =
+  "<tr><th></th><th>生詞</th><th>注音</th><th>拼音</th><th>英譯</th></tr>" +
+  WORDS.map(function(o){
+    return "<tr><td class='n'>"+o.n+"</td><td class='w'>"+esc(o.w)+"</td>"+
+           "<td class='z'>"+esc(o.z)+"</td><td class='e'>"+esc(o.p)+"</td>"+
+           "<td class='e'>"+esc(o.e)+"</td></tr>";
+  }).join("");
+
+$("hanzi-chips").innerHTML = HANZI.map(function(h){
+  return "<span class='chip'>"+h.c+"<small>"+h.z+"　"+h.s+"畫　"+h.r+"部</small></span>";
+}).join("");
+$("read-chips").innerHTML = READ.map(function(h){
+  return "<span class='chip'>"+h.c+(h.sc?"（"+h.sc+"）":"")+"<small>"+h.z+"</small></span>";
+}).join("");
+$("pattern-list").innerHTML = PATTERNS.map(function(p){
+  return "<li><b>"+esc(p.p)+"</b> <span class='en'>"+esc(p.e)+"</span>" +
+         p.ex.map(function(x){ return "<span class='ex'>"+x+"</span>"; }).join("") + "</li>";
+}).join("");
+
+/* ============================================================
+   六、成績上傳（格式與「故宮貪食蛇」的 Code.gs 完全相同）
+   ============================================================ */
+function endpoint(){ return GameKit.hasEndpoint(); }
+function setSync(msg, cls){
+  var el = $("sync");
+  el.textContent = msg || "";
+  el.className = "sync" + (cls ? " " + cls : "");
+}
+GameKit.onStatus(setSync);
+function queueGet(){ return new Array(GameKit.pending()); }
+function upload(rec){ GameKit.submit("pacman", rec); }
+function flushQueue(silent){ GameKit.flush(silent); }
+function loadLeaderboard(){ GameKit.renderLeaderboard("pacman", $("lb-msg"), $("lb-table"), "答對"); }
+
+/* ============================================================
+   七、音效與語音
+   ============================================================ */
+var AC = null;
+function sfxOn(){ return $("opt-sfx").checked; }
+function audio(){
+  if(!sfxOn()) return null;
+  try{
+    if(!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    if(AC.state === "suspended") AC.resume();
+    return AC;
+  }catch(e){ return null; }
+}
+function beep(f1,f2,dur,type,vol){
+  var ac = audio(); if(!ac) return;
+  var o = ac.createOscillator(), g = ac.createGain();
+  o.type = type || "square";
+  o.frequency.setValueAtTime(f1, ac.currentTime);
+  if(f2) o.frequency.linearRampToValueAtTime(f2, ac.currentTime + dur);
+  g.gain.setValueAtTime(vol || 0.05, ac.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + dur);
+  o.connect(g); g.connect(ac.destination);
+  o.start(); o.stop(ac.currentTime + dur + 0.02);
+}
+var wakaHi = false;
+function sWaka(){ wakaHi = !wakaHi; beep(wakaHi?440:330, wakaHi?330:440, 0.06,"square",0.03); }
+function sRight(){ beep(660,1320,0.22,"triangle",0.06); }
+function sWrong(){ beep(300,110,0.3,"sawtooth",0.06); }
+function sPower(){ beep(180,760,0.32,"sawtooth",0.05); }
+function sGhost(){ beep(760,180,0.32,"square",0.06); }
+function sDeath(){ beep(520,90,0.9,"sawtooth",0.07); }
+function sLevel(){ beep(400,900,0.5,"triangle",0.06); }
+
+var ttsOK = !!(window.speechSynthesis && window.SpeechSynthesisUtterance);
+function speak(txt){
+  if(!ttsOK || !txt) return;
+  try{
+    var u = new SpeechSynthesisUtterance(txt);
+    u.lang = "zh-TW"; u.rate = 0.82; u.pitch = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ============================================================
+   八、遊戲狀態
+   ============================================================ */
+var cv = $("cv"), ctx = cv.getContext("2d"), veil = $("veil");
+var cell = 20;
+
+var G = {
+  phase:"title",   // title | ready | play | dying | clear | gover | over | pause
+  score:0, best:0, level:1, lives:3, extra:false,
+  eaten:0, chain:0,
+  right:0, wrongN:0, combo:0, bestCombo:0, wrongList:[],
+  pac:null, ghosts:[], cards:[], q:null, orderWord:null, orderIdx:0,
+  modeIdx:0, modeT:0, chase:false,
+  fright:0, freeze:0, popup:null, flashFx:null,
+  timer:0, flash:0, t:0, last:0, t0:0, pausedFrom:"play"
+};
+G.best = parseInt(lsGet(LS.b,"0"),10) || 0;
+
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+
+/* ============================================================
+   九、實體與移動
+   ============================================================ */
+function mkPac(){
+  return {ghost:false, x:PAC_START.x, y:PAC_START.y, dx:-1, dy:0, want:null, dead:0, anim:0};
+}
+function mkGhost(def){
+  var inHouse = def.out > 0;
+  return {
+    ghost:true, def:def, key:def.key, color:def.color,
+    x: inHouse ? def.slot : ABOVE_DOOR.x,
+    y: inHouse ? HOUSE_Y  : ABOVE_DOOR.y,
+    dx: inHouse ? 0 : -1, dy: inHouse ? -1 : 0,
+    mode: inHouse ? "house" : "out",
+    fright:false, houseT: def.out, decKey:"", bob:Math.random()*6.28
+  };
+}
+function advance(e,d){
+  if(!e.dx && !e.dy) return;
+  var tx = Math.floor(e.x), ty = Math.floor(e.y);
+  var cxp = tx + 0.5, cyp = ty + 0.5;
+  var toC = e.dx !== 0 ? (cxp - e.x) * e.dx : (cyp - e.y) * e.dy;
+  if(toC >= -1e-9 && toC < d){
+    if(!passable(tx + e.dx, ty + e.dy, e)){ e.x = cxp; e.y = cyp; return; }
+  }
+  e.x += e.dx * d; e.y += e.dy * d;
+  if(e.x < 0) e.x += COLS; else if(e.x >= COLS) e.x -= COLS;
+}
+function tryTurn(e,d){
+  var w = e.want; if(!w) return;
+  if(w.x === e.dx && w.y === e.dy){ e.want = null; return; }
+  if(w.x === -e.dx && w.y === -e.dy){ e.dx = w.x; e.dy = w.y; e.want = null; return; }
+  var tx = Math.floor(e.x), ty = Math.floor(e.y);
+  var off = e.dx !== 0 ? Math.abs(e.x - (tx+0.5)) : Math.abs(e.y - (ty+0.5));
+  if(off <= d + 1e-9 && passable(tx + w.x, ty + w.y, e)){
+    e.x = tx + 0.5; e.y = ty + 0.5; e.dx = w.x; e.dy = w.y; e.want = null;
+  }
+}
+var SUB = 0.08;
+function movePac(dist){
+  var p = G.pac, remain = dist;
+  while(remain > 1e-9){
+    var d = Math.min(SUB, remain); remain -= d;
+    tryTurn(p,d); advance(p,d);
+  }
+  p.anim += dist;
+}
+function ahead(n){
+  var p = G.pac;
+  return {x: Math.floor(p.x) + p.dx*n, y: Math.floor(p.y) + p.dy*n};
+}
+function targetFor(g){
+  if(g.mode === "eyes" || g.mode === "entering") return {x:DOOR_TILE.x, y:DOOR_TILE.y};
+  if(!G.chase) return g.def.scatter;
+  var p = G.pac, pt = {x:Math.floor(p.x), y:Math.floor(p.y)};
+  if(g.key === "blinky") return pt;
+  if(g.key === "pinky")  return ahead(4);
+  if(g.key === "inky"){
+    var b = G.ghosts[0], a = ahead(2);
+    return {x: a.x*2 - Math.floor(b.x), y: a.y*2 - Math.floor(b.y)};
+  }
+  var dx = pt.x - Math.floor(g.x), dy = pt.y - Math.floor(g.y);
+  return (dx*dx + dy*dy > 64) ? pt : g.def.scatter;
+}
+var DIR4 = [{x:0,y:-1},{x:-1,y:0},{x:0,y:1},{x:1,y:0}];
+function decide(g,tx,ty){
+  g.x = tx + 0.5; g.y = ty + 0.5;
+  var i, opts = [];
+  for(i=0;i<4;i++){
+    var dd = DIR4[i];
+    if(dd.x === -g.dx && dd.y === -g.dy) continue;
+    if(passable(tx+dd.x, ty+dd.y, g)) opts.push(dd);
+  }
+  if(!opts.length) for(i=0;i<4;i++) if(passable(tx+DIR4[i].x, ty+DIR4[i].y, g)) opts.push(DIR4[i]);
+  if(!opts.length) return;
+  var best;
+  if(g.fright && g.mode === "out"){
+    best = opts[Math.floor(Math.random()*opts.length)];
+  }else{
+    var t = targetFor(g), bd = Infinity;
+    for(i=0;i<opts.length;i++){
+      var nx = tx + opts[i].x, ny = ty + opts[i].y;
+      var dist = (nx-t.x)*(nx-t.x) + (ny-t.y)*(ny-t.y);
+      if(dist < bd){ bd = dist; best = opts[i]; }
+    }
+  }
+  g.dx = best.x; g.dy = best.y;
+}
+function inTunnel(g){ return Math.floor(g.y) === 14 && (g.x < 6 || g.x > 22); }
+function moveGhost(g,dt){
+  if(g.mode === "house"){
+    g.houseT -= dt; g.bob += dt*4;
+    g.y = HOUSE_Y + Math.sin(g.bob)*0.30;
+    g.dx = 0; g.dy = Math.cos(g.bob) > 0 ? 1 : -1;
+    if(g.houseT <= 0){ g.mode = "leaving"; g.y = HOUSE_Y; }
+    return;
+  }
+  if(g.mode === "leaving"){
+    var v = 4.2 * dt;
+    if(Math.abs(g.x - ABOVE_DOOR.x) > 0.02){
+      var s = g.x < ABOVE_DOOR.x ? 1 : -1;
+      g.x += s*v; g.dx = s; g.dy = 0;
+      if((s>0 && g.x > ABOVE_DOOR.x) || (s<0 && g.x < ABOVE_DOOR.x)) g.x = ABOVE_DOOR.x;
+    }else{
+      g.x = ABOVE_DOOR.x; g.dx = 0; g.dy = -1; g.y -= v;
+      if(g.y <= ABOVE_DOOR.y){
+        g.y = ABOVE_DOOR.y; g.mode = "out"; g.decKey = "";
+        g.dx = Math.random() < 0.5 ? -1 : 1; g.dy = 0;
+      }
+    }
+    return;
+  }
+  if(g.mode === "entering"){
+    g.x = ABOVE_DOOR.x; g.dx = 0; g.dy = 1; g.y += 8*dt;
+    if(g.y >= HOUSE_Y){ g.y = HOUSE_Y; g.mode = "house"; g.houseT = 0.8; g.fright = false; }
+    return;
+  }
+  var sp = speeds(G.level);
+  var v3 = g.mode === "eyes" ? sp.eyes : g.fright ? sp.fright : inTunnel(g) ? sp.tunnel : sp.ghost;
+  var remain = v3 * dt;
+  while(remain > 1e-9){
+    var d = Math.min(SUB, remain); remain -= d;
+    var tx = Math.floor(g.x), ty = Math.floor(g.y);
+    var off = g.dx !== 0 ? Math.abs(g.x - (tx+0.5)) : Math.abs(g.y - (ty+0.5));
+    var key = tx + "," + ty;
+    if(off <= d + 1e-9 && g.decKey !== key){ g.decKey = key; decide(g,tx,ty); }
+    advance(g,d);
+    if(g.mode === "eyes" && Math.abs(g.x - ABOVE_DOOR.x) < 0.12 && Math.abs(g.y - ABOVE_DOOR.y) < 0.12){
+      g.mode = "entering"; g.x = ABOVE_DOOR.x; g.y = ABOVE_DOOR.y; return;
+    }
+  }
+}
+function reverseAll(){
+  for(var i=0;i<G.ghosts.length;i++){
+    var g = G.ghosts[i];
+    if(g.mode !== "out") continue;
+    g.dx = -g.dx; g.dy = -g.dy; g.decKey = "";
+  }
+}
+
+/* ============================================================
+   十、詞卡
+   ============================================================ */
+/* 判斷小精靈是不是正站在某個角落的答案區塊裡 */
+function slotUnderPac(){
+  var pc = wrapCol(Math.floor(G.pac.x)), pr = Math.floor(G.pac.y);
+  for(var i=0;i<SLOTS.length;i++) if(inSlot(i, pc, pr)) return i;
+  return -1;
+}
+/* 把四張卡隨機分配到四個角落；每張卡在那一格往上（或往下）長出 n 格高。
+   兩道保險，避免「剛答完題就被旁邊冒出來的新卡扣分」：
+     a. 小精靈現在站著的那個角落不放正確答案；
+     b. 那個角落的卡先標成 hidden，等他整個人離開這個角落才長出來（期間只顯示虛線框）。
+   新卡若比剛吃掉的那張矮，小精靈雖然沒站在卡上但就在隔壁，往前一步就會踩到 ──
+   所以判斷依據是「整個角落的範圍」，不是卡片實際佔的格子。 */
+function placeCards(items){
+  var order = shuffle([0,1,2,3]), out = [], i;
+  var here = slotUnderPac();
+  if(here >= 0){
+    var ci = -1;
+    for(i=0;i<items.length;i++) if(items[i].correct) ci = i;
+    if(ci >= 0 && order[ci] === here){
+      var sw = (ci + 1) % Math.min(items.length, 4), t = order[ci];
+      order[ci] = order[sw]; order[sw] = t;
+    }
+  }
+  for(i=0;i<items.length && i<4;i++){
+    out.push({label:items[i].label, zhuyin:items[i].zhuyin || "", correct:!!items[i].correct,
+              n:items[i].label.length, slot:order[i], hidden:(order[i] === here)});
+  }
+  return out;
+}
+/* 小精靈離開某個角落後，該角落的卡才現身 */
+function revealCards(){
+  var here = slotUnderPac();
+  for(var i=0;i<G.cards.length;i++)
+    if(G.cards[i].hidden && G.cards[i].slot !== here){ G.cards[i].hidden = false; G.choicesDirty = true; }
+}
+/* 換卡時若小精靈剛好站在某張卡上，先記下來，等他離開再回來才算數 */
+function setCards(arr){
+  G.cards = arr;
+  G.inCard = cardAt(wrapCol(Math.floor(G.pac.x)), Math.floor(G.pac.y));
+  G.choicesDirty = true;
+}
+function cardAt(c,r){
+  for(var i=0;i<G.cards.length;i++){
+    var k = G.cards[i];
+    if(k.hidden) continue;
+    if(inSlot(k.slot, c, r)) return k;
+  }
+  return null;
+}
+
+/* ============================================================
+   十一、出題
+   ============================================================ */
+function activeModes(){
+  var m = [];
+  if($("m-mean").checked)  m.push("mean");
+  if($("m-cloze").checked) m.push("cloze");
+  if($("m-order").checked) m.push("order");
+  if($("m-sound").checked) m.push("sound");
+  if(!m.length) m.push("mean");
+  return m;
+}
+function modesLabel(){
+  var m = [];
+  if($("m-mean").checked)  m.push("看意思");
+  if($("m-cloze").checked) m.push("填空");
+  if($("m-order").checked) m.push("字序");
+  if($("m-sound").checked) m.push("聽音");
+  return m.join("＋") || "看意思";
+}
+function zhuyinOn(){ return $("opt-zhuyin").checked; }
+function enOn(){ return $("opt-en").checked; }
+function ttsAuto(){ return $("opt-tts").checked; }
+
+function wordCards(row){
+  var pool = WORDS.filter(function(o){ return o.w !== row.w; });
+  shuffle(pool);
+  var items = [{label:row.w, zhuyin:row.z, correct:true}];
+  for(var i=0;i<3 && i<pool.length;i++) items.push({label:pool[i].w, zhuyin:pool[i].z, correct:false});
+  return placeCards(shuffle(items));
+}
+
+function newQuestion(){
+  var mode = pick(activeModes());
+  if(mode === "order") return qOrder();
+  if(mode === "cloze") return qCloze();
+  if(mode === "sound") return qSound();
+  return qMean();
+}
+function qMean(){
+  var row = pick(WORDS);
+  G.q = {kind:"mean", answer:row.w, row:row};
+  setCards(wordCards(row));
+  $("q-tag").textContent = "看意思　吃出正確的詞";
+  $("q-prompt").innerHTML = "<b>" + esc(row.d) + "</b>" + (enOn() ? "　<s>" + esc(row.e) + "</s>" : "");
+  $("q-hint").textContent = "答案共 " + row.w.length + " 個字";
+  $("btn-speak").hidden = true;
+}
+function qCloze(){
+  var s = pick(SENTS), row = BY_W[s[1]];
+  if(!row) return qMean();
+  G.q = {kind:"cloze", answer:row.w, row:row};
+  setCards(wordCards(row));
+  $("q-tag").textContent = "課文選詞填空";
+  $("q-prompt").innerHTML = esc(s[0]).replace(/＿+/, "<em>？</em>");
+  $("q-hint").textContent = "把空格裡該填的詞吃下來（" + row.w.length + " 個字）";
+  $("btn-speak").hidden = true;
+}
+function qSound(){
+  var row = pick(WORDS);
+  G.q = {kind:"sound", answer:row.w, row:row};
+  setCards(wordCards(row));
+  $("q-tag").textContent = "聽音／看注音　吃出正確的詞";
+  $("q-prompt").innerHTML = "<span class='zy'>" + esc(row.z) + "</span>";
+  $("q-hint").textContent = row.p + "　·　" + row.w.length + " 個字" + (ttsOK ? "" : "（這台裝置沒有語音功能，請看注音）");
+  $("btn-speak").hidden = !ttsOK;
+  if(ttsOK && ttsAuto()) speak(row.w);
+}
+function qOrder(){
+  var pool = WORDS.filter(function(o){ return o.w.length >= 2; });
+  var row = pick(pool);
+  G.orderWord = row; G.orderIdx = 0;
+  G.q = {kind:"order", answer:row.w, row:row};
+  $("q-tag").textContent = "照字序吃字";
+  $("btn-speak").hidden = true;
+  layoutOrder();
+}
+function layoutOrder(){
+  var row = G.orderWord, w = row.w, idx = G.orderIdx, need = w.charAt(idx);
+  var pool = ALL_CHARS.filter(function(c){ return c !== need; });
+  shuffle(pool);
+  var items = [{label:need, zhuyin:CHARZ[need] || "", correct:true}];
+  for(var i=0;i<3 && i<pool.length;i++) items.push({label:pool[i], zhuyin:CHARZ[pool[i]] || "", correct:false});
+  setCards(placeCards(shuffle(items)));
+
+  var done = w.slice(0,idx), rest = w.slice(idx+1).replace(/./g,"○");
+  $("q-prompt").innerHTML = "依序吃出　<b>" + esc(done) + "</b><em>" + esc(need) + "</em><s>" + rest + "</s>";
+  var info = CHARINFO[need];
+  $("q-hint").textContent = row.z + "　" + row.e + (info ? "　｜　「" + need + "」" + info.s + "畫，" + info.r + "部" : "");
+}
+
+/* ============================================================
+   十二、計分與答題
+   ============================================================ */
+function hud(){
+  $("s-right").textContent = G.right;
+  $("s-wrong").textContent = G.wrongN;
+  $("s-combo").textContent = G.combo;
+}
+function refreshNeed(){
+  $("s-need").textContent = Math.max(0, G.needLeft === undefined ? needPerLevel() : G.needLeft);
+}
+
+function addScore(n){
+  G.score += n;
+  if(G.score < 0) G.score = 0;
+  if(!G.extra && G.score >= 10000){ G.extra = true; G.lives++; beep(880,1320,0.3,"triangle",0.06); }
+  if(G.score > G.best){ G.best = G.score; lsSet(LS.b, String(G.best)); }
+}
+function noteWrong(row){
+  if(!row) return;
+  for(var i=0;i<G.wrongList.length;i++) if(G.wrongList[i].w === row.w) return;
+  G.wrongList.push(row);
+}
+function answer(card){
+  if(card.correct){
+    G.flashFx = {color:"#7fd68c", until:performance.now()+260};
+    if(G.q.kind === "order"){
+      G.orderIdx++;
+      addScore(30);
+      beep(700,900,0.1,"triangle",0.045);
+      if(G.orderIdx >= G.orderWord.w.length){
+        scoreRight(60);
+      }else{
+        layoutOrder();
+      }
+    }else{
+      scoreRight(100);
+    }
+  }else{
+    G.flashFx = {color:"#ff3b3b", until:performance.now()+320};
+    G.combo = 0; G.wrongN++;
+    addScore(-20);
+    noteWrong(G.q.row);
+    sWrong();
+    var cs = SLOTS[card.slot];
+    G.popup = {x:cs.col + 0.5, y:cs.r1 + 1.4, txt:"-20", color:"#ff5b5b"};
+    G.freeze = 0.5;
+    /* 吃錯的那一張就消失，正確答案留在原位，可以繼續找 */
+    var idx = G.cards.indexOf(card);
+    if(idx >= 0) G.cards.splice(idx, 1);
+    G.inCard = null; G.choicesDirty = true;
+    refreshNeed(); hud();
+  }
+}
+/* 答對的獎勵：鬼變藍，可以反過來吃（取代原本的能量豆） */
+function grantFright(sec){
+  G.fright = sec; G.chain = 0;
+  for(var i=0;i<G.ghosts.length;i++){
+    var g = G.ghosts[i];
+    if(g.mode === "eyes" || g.mode === "entering") continue;
+    g.fright = true;
+    if(g.mode === "out"){ g.dx = -g.dx; g.dy = -g.dy; g.decKey = ""; }
+  }
+  sPower();
+}
+function scoreRight(base){
+  var bonus = Math.min(100, G.combo * 20);
+  addScore(base + bonus);
+  G.right++; G.combo++;
+  if(G.combo > G.bestCombo) G.bestCombo = G.combo;
+  G.needLeft--;
+  sRight();
+  grantFright(G.combo % 3 === 0 ? 6 : 3);
+  G.popup = {x:13.5, y:17.5, txt:"+" + (base + bonus), color:"#00ffff"};
+  G.freeze = 0.9;
+  G.cards = []; G.inCard = null;
+  hud(); refreshNeed();
+  if(G.needLeft <= 0){ levelClear(); return; }
+  G.pending = true;      // 解凍後再出下一題
+}
+
+/* ============================================================
+   十三、流程
+   ============================================================ */
+function resetGrid(){
+  grid = [];
+  for(var r=0;r<ROWS;r++) grid.push(base[r].slice());
+  G.eaten = 0;
+}
+function resetActors(){
+  G.pac = mkPac();
+  G.ghosts = [];
+  for(var i=0;i<GHOSTS.length;i++) G.ghosts.push(mkGhost(GHOSTS[i]));
+  G.modeIdx = 0; G.modeT = 0; G.chase = false;
+  G.fright = 0; G.chain = 0; G.freeze = 0; G.popup = null; G.flashFx = null;
+  G.pending = false; G.inCard = null;
+}
+function startRound(t){ G.phase = "ready"; G.timer = t; draw(); }
+
+function newGame(){
+  G.score = 0; G.level = 1; G.lives = 3; G.extra = false;
+  G.right = 0; G.wrongN = 0; G.combo = 0; G.bestCombo = 0; G.wrongList = [];
+  G.needLeft = needPerLevel();
+  resetGrid(); resetActors(); newQuestion();
+  hud(); refreshNeed(); setSync("");
+  G.t0 = Date.now();
+  startRound(2.2);
+}
+function nextLevel(){
+  G.level++; G.needLeft = needPerLevel();
+  resetGrid(); resetActors(); newQuestion();
+  hud(); refreshNeed();
+  startRound(2.0);
+}
+function startGame(){ veil.hidden = true; G.last = performance.now(); requestAnimationFrame(loop); }
+
+function loseLife(){ G.phase = "dying"; G.timer = 1.8; G.pac.dead = 0; G.combo = 0; hud(); sDeath(); }
+function afterDeath(){
+  G.lives--;
+  if(G.lives <= 0){ G.phase = "gover"; G.timer = 2.6; return; }
+  resetActors();
+  if(G.q && G.q.kind === "order") layoutOrder(); else if(G.q) setCards(wordCards(G.q.row));
+  startRound(1.8);
+}
+function levelClear(){ G.phase = "clear"; G.timer = 2.4; G.flash = 0; G.cards = []; G.inCard = null; sLevel(); }
+
+function finishUpload(reason){
+  upload({
+    result: reason + "／第" + G.level + "關",
+    score: G.score, level: G.level, right: G.right, best: G.bestCombo,
+    modes: modesLabel(), speed: (diffMul() < 1 ? "慢" : diffMul() > 1 ? "快" : "標準"),
+    seconds: G.t0 ? Math.round((Date.now() - G.t0)/1000) : 0,
+    wrongCount: G.wrongN, wrong: G.wrongList.map(function(r){ return r.w; }).join("、"),
+    lesson: LESSON
+  });
+}
+function showOverVeil(){
+  G.phase = "over";
+  var h = '<h2 class="bad">GAME OVER</h2>' +
+          '<p>本局分數</p><div class="big">' + G.score + '</div>' +
+          '<p>答對 ' + G.right + ' 題　·　答錯 ' + G.wrongN + ' 次</p>' +
+          '<p>最長連對 ' + G.bestCombo + '　·　到達第 ' + G.level + ' 關</p>';
+  if(G.wrongList.length){
+    h += '<p style="color:var(--red)">錯題複習（' + G.wrongList.length + ' 個詞）</p><div class="review">';
+    G.wrongList.forEach(function(r){
+      h += '<div class="row"><div class="w">' + esc(r.w) + '<span class="z">' + esc(r.z) + '</span></div>' +
+           '<div class="d">' + esc(r.d) + '　' + esc(r.e) + '</div></div>';
+    });
+    h += '</div>';
+  }else if(G.right > 0){
+    h += '<p style="color:var(--green)">全部答對，一個錯題都沒有，很厲害！</p>';
+  }
+  h += '<button class="primary" data-act="new">再玩一次</button>';
+  veil.innerHTML = h; veil.hidden = false; draw();
+  finishUpload("生命用完");
+}
+function title(){
+  G.phase = "title";
+  G.needLeft = needPerLevel();
+  resetGrid(); resetActors();
+  G.cards = []; G.inCard = null; G.right = 0; G.wrongN = 0; G.combo = 0;
+  hud(); refreshNeed(); renderChoices();
+  veil.innerHTML =
+    '<h2>網路購物吃豆人</h2>' +
+    '<p>迷宮裡會出現四張詞卡，照著上面的題目吃下正確的那一張。</p>' +
+    '<p class="keys">方向鍵 / WASD　·　手機直接滑動畫面</p>' +
+    '<button class="primary" data-act="new">開始遊戲</button>';
+  veil.hidden = false;
+}
+
+/* ============================================================
+   十四、每幀更新
+   ============================================================ */
+function eatAt(){
+  var p = G.pac, c = wrapCol(Math.floor(p.x)), r = Math.floor(p.y);
+  if(r<0 || r>=ROWS) return;
+  var t = grid[r][c];
+  if(t === DOT){ grid[r][c] = EMPTY; G.eaten++; addScore(10); sWaka(); }
+}
+function collide(){
+  var p = G.pac;
+  for(var i=0;i<G.ghosts.length;i++){
+    var g = G.ghosts[i];
+    if(g.mode !== "out") continue;
+    var dx = g.x - p.x, dy = g.y - p.y;
+    if(Math.abs(dx) > COLS/2) dx = dx > 0 ? dx - COLS : dx + COLS;
+    if(dx*dx + dy*dy < 0.36){
+      if(g.fright){
+        G.chain = Math.min(G.chain + 1, 4);
+        var pts = 200 * Math.pow(2, G.chain - 1);
+        addScore(pts);
+        g.fright = false; g.mode = "eyes"; g.decKey = "";
+        G.freeze = 0.7; G.popup = {x:g.x, y:g.y, txt:String(pts), color:"#00ffff"};
+        sGhost();
+      }else loseLife();
+      return;
+    }
+  }
+}
+function update(dt){
+  G.t += dt;
+  if(G.phase === "ready"){
+    G.timer -= dt;
+    if(G.timer <= 0) G.phase = "play";
+    return;
+  }
+  if(G.phase === "dying"){
+    G.timer -= dt; G.pac.dead = Math.min(1, 1 - G.timer/1.45);
+    if(G.timer <= 0) afterDeath();
+    return;
+  }
+  if(G.phase === "clear"){
+    G.timer -= dt; G.flash += dt;
+    if(G.timer <= 0) nextLevel();
+    return;
+  }
+  if(G.phase === "gover"){
+    G.timer -= dt;
+    if(G.timer <= 0) showOverVeil();
+    return;
+  }
+  if(G.phase !== "play") return;
+
+  if(G.freeze > 0){
+    G.freeze -= dt;
+    if(G.freeze <= 0){
+      G.popup = null;
+      if(G.pending){ G.pending = false; newQuestion(); }
+    }
+    return;
+  }
+
+  if(G.fright <= 0){
+    G.modeT += dt;
+    if(G.modeT >= SCHEDULE[G.modeIdx]){
+      G.modeT = 0; G.modeIdx = Math.min(G.modeIdx + 1, SCHEDULE.length - 1);
+      G.chase = !G.chase; reverseAll();
+    }
+  }
+  if(G.fright > 0){
+    G.fright -= dt;
+    if(G.fright <= 0){
+      G.fright = 0; G.chain = 0;
+      for(var i=0;i<G.ghosts.length;i++) G.ghosts[i].fright = false;
+    }
+  }
+
+  var sp = speeds(G.level);
+  movePac(sp.pac * dt);
+  eatAt();
+
+  revealCards();
+  var ct = cardAt(wrapCol(Math.floor(G.pac.x)), Math.floor(G.pac.y));
+  if(ct !== G.inCard){
+    G.inCard = ct;
+    if(ct) answer(ct);
+  }
+  if(G.phase !== "play") return;
+
+  collide();
+  if(G.phase !== "play") return;
+  for(var k=0;k<G.ghosts.length;k++) moveGhost(G.ghosts[k], dt);
+  collide();
+}
+
+/* ============================================================
+   十五、繪圖
+   ============================================================ */
+var mazePath = null;
+function resize(){
+  var w = cv.parentNode.clientWidth;
+  cell = Math.max(8, Math.floor(w / COLS));
+  cv.width = cell * COLS; cv.height = cell * VIEW_ROWS;
+  buildMaze(); draw();
+}
+window.addEventListener("resize", resize);
+
+function isWall(c,r){
+  if(r<0 || r>=ROWS || c<0 || c>=COLS) return false;
+  return base[r][c] === WALL;
+}
+function rr(x,y,w,h,rad){
+  rad = Math.min(rad, w/2, h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+rad,y);
+  ctx.arcTo(x+w,y,x+w,y+h,rad);
+  ctx.arcTo(x+w,y+h,x,y+h,rad);
+  ctx.arcTo(x,y+h,x,y,rad);
+  ctx.arcTo(x,y,x+w,y,rad);
+  ctx.closePath();
+}
+function buildMaze(){
+  var P = new Path2D(), o = cell*0.32, h = cell/2, PI = Math.PI;
+  for(var r=0;r<ROWS;r++){
+    for(var c=0;c<COLS;c++){
+      if(base[r][c] !== WALL) continue;
+      var cx = (c+0.5)*cell, cy = (r+0.5)*cell;
+      var N=isWall(c,r-1), S=isWall(c,r+1), W=isWall(c-1,r), E=isWall(c+1,r);
+      var NW=isWall(c-1,r-1), NE=isWall(c+1,r-1), SW=isWall(c-1,r+1), SE=isWall(c+1,r+1);
+      if(!N){ P.moveTo(cx-(W?h:0), cy-o); P.lineTo(cx+(E?h:0), cy-o); }
+      if(!S){ P.moveTo(cx-(W?h:0), cy+o); P.lineTo(cx+(E?h:0), cy+o); }
+      if(!W){ P.moveTo(cx-o, cy-(N?h:0)); P.lineTo(cx-o, cy+(S?h:0)); }
+      if(!E){ P.moveTo(cx+o, cy-(N?h:0)); P.lineTo(cx+o, cy+(S?h:0)); }
+      if(!N && !W){ P.moveTo(cx-o,cy); P.arc(cx,cy,o,PI,PI*1.5); }
+      if(!N && !E){ P.moveTo(cx,cy-o); P.arc(cx,cy,o,PI*1.5,PI*2); }
+      if(!S && !E){ P.moveTo(cx+o,cy); P.arc(cx,cy,o,0,PI*0.5); }
+      if(!S && !W){ P.moveTo(cx,cy+o); P.arc(cx,cy,o,PI*0.5,PI); }
+      if(N && W && !NW){ P.moveTo(cx-o,cy-h); P.arc(cx-h,cy-h,h-o,0,PI*0.5); }
+      if(N && E && !NE){ P.moveTo(cx+h,cy-o); P.arc(cx+h,cy-h,h-o,PI*0.5,PI); }
+      if(S && E && !SE){ P.moveTo(cx+o,cy+h); P.arc(cx+h,cy+h,h-o,PI,PI*1.5); }
+      if(S && W && !SW){ P.moveTo(cx-h,cy+o); P.arc(cx-h,cy+h,h-o,PI*1.5,PI*2); }
+    }
+  }
+  mazePath = P;
+}
+function text(str, x, y, px, color, align){
+  str = String(str).toUpperCase();
+  var adv = px*6, w = str.length*adv - px;
+  var x0 = align === "center" ? x - w/2 : align === "right" ? x - w : x;
+  ctx.fillStyle = color;
+  for(var i=0;i<str.length;i++){
+    var g = FONT[str.charAt(i)];
+    if(!g) continue;
+    for(var r=0;r<7;r++){
+      var bits = g[r];
+      if(!bits) continue;
+      for(var c=0;c<5;c++) if(bits & (1 << (4-c))) ctx.fillRect(x0 + i*adv + c*px, y + r*px, px, px);
+    }
+  }
+}
+function drawMaze(){
+  if(!mazePath) buildMaze();
+  var col = (G.phase === "clear" && (Math.floor(G.flash*6) % 2)) ? C.wallFlash : C.wall;
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.strokeStyle = col; ctx.lineWidth = Math.max(1.4, cell*0.13);
+  ctx.stroke(mazePath);
+  ctx.strokeStyle = C.door; ctx.lineWidth = Math.max(1.6, cell*0.14);
+  ctx.beginPath();
+  ctx.moveTo(13*cell + cell*0.1, 12*cell + cell*0.5);
+  ctx.lineTo(15*cell - cell*0.1, 12*cell + cell*0.5);
+  ctx.stroke();
+}
+function drawDots(){
+  var blink = Math.floor(G.t*5) % 2 === 0;
+  ctx.fillStyle = C.dot;
+  for(var r=0;r<ROWS;r++){
+    for(var c=0;c<COLS;c++){
+      var v = grid[r][c];
+      if(v === DOT){
+        var s = Math.max(2, Math.round(cell*0.16));
+        ctx.fillRect(Math.round(c*cell + (cell-s)/2), Math.round(r*cell + (cell-s)/2), s, s);
+      }else if(v === POWER && blink){
+        ctx.beginPath(); ctx.arc(c*cell + cell/2, r*cell + cell/2, cell*0.34, 0, 6.3); ctx.fill();
+      }
+    }
+  }
+}
+var SERIF_F = '"Noto Serif CJK TC","Noto Serif TC","Songti TC","PMingLiU",serif';
+var SANS_F  = '"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
+
+/* 選項區：四格對應迷宮四角，字大、附注音，手機上用這裡讀 */
+function renderChoices(){
+  var box = $("choices"), i, j;
+  for(i=0;i<4;i++){
+    var el = box.children[i], card = null;
+    for(j=0;j<G.cards.length;j++) if(G.cards[j].slot === i){ card = G.cards[j]; break; }
+    var cls = "ch", h;
+    if(!card){
+      cls += " gone";
+      h = '<span class="pos">' + SLOTS[i].pos + '</span><span class="tx">' +
+          '<span class="zy">' + SLOTS[i].zh + '</span><span class="w">—</span></span>';
+    }else{
+      if(card.hidden) cls += " wait";
+      var zy = (zhuyinOn() && card.zhuyin) ? esc(card.zhuyin) : SLOTS[i].zh;
+      h = '<span class="pos">' + SLOTS[i].pos + '</span><span class="tx">' +
+          '<span class="zy">' + zy + '</span><span class="w">' + esc(card.label) + '</span></span>' +
+          (card.hidden ? '<span class="note">走開後<br>出現</span>' : '');
+    }
+    el.className = cls;
+    el.innerHTML = h;
+  }
+}
+
+/* 卡片在畫面上的方框：寬度只比通道寬一點點，高度佔滿那三格 */
+function cardBox(i){
+  var s = SLOTS[i], w = cell*1.62;
+  return {x:(s.col + 0.5)*cell - w/2, y:s.r0*cell - cell*0.06, w:w, h:cell*3.12};
+}
+/* 沒有卡片的角落畫一個淡虛線框，讓四個答案位置一直看得見 */
+function drawSlotMarks(){
+  for(var i=0;i<SLOTS.length;i++){
+    var taken = false;
+    for(var j=0;j<G.cards.length;j++)
+      if(!G.cards[j].hidden && G.cards[j].slot === i){ taken = true; break; }
+    if(taken) continue;
+    var b = cardBox(i);
+    ctx.save();
+    ctx.strokeStyle = "rgba(255,255,255,.26)";
+    ctx.lineWidth = Math.max(1, cell*0.06);
+    ctx.setLineDash([cell*0.22, cell*0.16]);
+    rr(b.x, b.y, b.w, b.h, Math.max(3, cell*0.2));
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+/* 詞卡：直式，正好貼在可以走的那三格上。注音放在上面的選項區，這裡只放字，字才放得大。 */
+function drawCards(){
+  for(var i=0;i<G.cards.length;i++){
+    var k = G.cards[i];
+    if(k.hidden) continue;
+    var b = cardBox(k.slot);
+
+    ctx.fillStyle = C.cardBg;
+    ctx.strokeStyle = C.cardLine;
+    ctx.lineWidth = Math.max(1.2, cell*0.08);
+    rr(b.x, b.y, b.w, b.h, Math.max(3, cell*0.2));
+    ctx.fill(); ctx.stroke();
+
+    var pad = Math.max(1.2, cell*0.10);
+    var n = k.n, lane = (b.h - pad*2)/n;
+    var fs = Math.min(lane*0.94, b.w - pad*2);
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillStyle = C.cardInk;
+    ctx.font = "700 " + fs.toFixed(1) + "px " + SERIF_F;
+    for(var j=0;j<n;j++)
+      ctx.fillText(k.label.charAt(j), b.x + b.w/2, b.y + pad + lane*(j + 0.5));
+  }
+}
+function drawPac(){
+  var p = G.pac, x = p.x*cell, y = p.y*cell, R = cell*0.68;
+  var ang = Math.atan2(p.dy, p.dx), m;
+  if(G.phase === "dying"){
+    m = p.dead * Math.PI;
+    if(p.dead >= 0.995) return;
+  }else if(G.phase === "ready" || G.phase === "title"){
+    m = 0.30;
+  }else{
+    m = Math.abs(Math.sin(p.anim * 2.6)) * 0.36;
+  }
+  ctx.fillStyle = C.pac;
+  ctx.beginPath(); ctx.moveTo(x,y);
+  ctx.arc(x, y, R, ang + m, ang - m + Math.PI*2);
+  ctx.closePath(); ctx.fill();
+}
+function ghostBody(x,y,R,phase){
+  ctx.beginPath();
+  ctx.arc(x, y - R*0.05, R, Math.PI, 0);
+  ctx.lineTo(x + R, y + R*0.78);
+  var n = 3, w = (R*2)/n;
+  for(var i=0;i<n;i++){
+    var x0 = x + R - i*w;
+    var up = (i % 2 === phase) ? R*0.30 : R*0.42;
+    ctx.quadraticCurveTo(x0 - w*0.25, y + R*0.78 - up, x0 - w*0.5, y + R*0.78);
+    ctx.quadraticCurveTo(x0 - w*0.75, y + R*0.78 + R*0.26, x0 - w, y + R*0.78);
+  }
+  ctx.closePath(); ctx.fill();
+}
+function drawGhost(g){
+  var x = g.x*cell, y = g.y*cell, R = cell*0.66;
+  var blue = g.fright && g.mode !== "eyes" && g.mode !== "entering";
+  var ending = blue && G.fright < 2.2 && Math.floor(G.fright*6) % 2 === 0;
+  var phase = Math.floor(G.t*6) % 2;
+  if(g.mode !== "eyes"){
+    ctx.fillStyle = ending ? C.frightEnd : (blue ? C.fright : g.color);
+    ghostBody(x, y, R, phase);
+  }
+  if(blue){
+    var fc = ending ? "#ff0000" : "#ffffff";
+    ctx.fillStyle = fc;
+    ctx.beginPath(); ctx.arc(x - R*0.33, y - R*0.14, R*0.15, 0, 6.3); ctx.fill();
+    ctx.beginPath(); ctx.arc(x + R*0.33, y - R*0.14, R*0.15, 0, 6.3); ctx.fill();
+    ctx.strokeStyle = fc; ctx.lineWidth = Math.max(1.2, cell*0.07);
+    ctx.beginPath();
+    var zw = R*0.24;
+    ctx.moveTo(x - R*0.6, y + R*0.38);
+    for(var k=0;k<5;k++) ctx.lineTo(x - R*0.6 + zw*(k+1), y + R*0.38 + (k%2 ? R*0.16 : -R*0.16));
+    ctx.stroke();
+    return;
+  }
+  var ex = g.dx * R*0.18, ey = g.dy * R*0.20;
+  ctx.fillStyle = C.eye;
+  ctx.beginPath(); ctx.ellipse(x - R*0.34, y - R*0.16, R*0.29, R*0.37, 0, 0, 6.3); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(x + R*0.34, y - R*0.16, R*0.29, R*0.37, 0, 0, 6.3); ctx.fill();
+  ctx.fillStyle = C.pupil;
+  ctx.beginPath(); ctx.arc(x - R*0.34 + ex, y - R*0.16 + ey, R*0.16, 0, 6.3); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + R*0.34 + ex, y - R*0.16 + ey, R*0.16, 0, 6.3); ctx.fill();
+}
+function drawPopup(){
+  if(!G.popup) return;
+  text(G.popup.txt, G.popup.x*cell, G.popup.y*cell - cell*0.5,
+       Math.max(1, Math.round(cell/7)), G.popup.color || C.score, "center");
+}
+function drawTopBar(){
+  var px = Math.max(1, Math.round(cell/7));
+  var blink = G.phase === "title" || G.phase === "over" || Math.floor(G.t*2) % 2 === 0;
+  if(blink) text("1UP", 1.2*cell, 0.2*cell, px, C.text, "left");
+  text("HIGH SCORE", 13*cell, 0.2*cell, px, C.text, "center");
+  text(String(G.score), 6.2*cell, 1.4*cell, px, C.text, "right");
+  text(String(G.best), 13*cell, 1.4*cell, px, C.text, "center");
+  text("LV " + G.level, 26.8*cell, 0.2*cell, px, C.pac, "right");
+  text("Q " + G.right, 26.8*cell, 1.4*cell, px, C.score, "right");
+}
+function drawBottomBar(){
+  var y = (VIEW_ROWS - 1.4) * cell, i;
+  for(i=0;i<Math.min(G.lives,6);i++){
+    var x = (2 + i*1.9) * cell;
+    ctx.fillStyle = C.pac;
+    ctx.beginPath(); ctx.moveTo(x,y);
+    ctx.arc(x, y, cell*0.62, Math.PI*0.22, -Math.PI*0.22);
+    ctx.closePath(); ctx.fill();
+  }
+  var px = Math.max(1, Math.round(cell/7));
+  text("GOAL " + Math.max(0, G.needLeft), 26*cell, y - cell*0.5, px, C.text, "right");
+}
+function draw(){
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,cv.width,cv.height);
+  drawTopBar();
+  drawBottomBar();
+
+  ctx.save();
+  ctx.translate(0, OY*cell);
+  drawMaze();
+  if(G.phase !== "clear"){
+    drawDots();
+    drawSlotMarks();
+    drawCards();
+    if(G.phase !== "dying" && G.phase !== "gover")
+      for(var i=0;i<G.ghosts.length;i++) drawGhost(G.ghosts[i]);
+    if(G.phase !== "gover") drawPac();
+    drawPopup();
+  }
+  var px = Math.max(1, Math.round(cell/7));
+  if(G.phase === "ready") text("READY!", 14*cell, 17.2*cell, px, C.ready, "center");
+  if(G.phase === "gover") text("GAME OVER", 14*cell, 17.2*cell, px, C.over, "center");
+  ctx.restore();
+
+  if(G.flashFx && performance.now() < G.flashFx.until){
+    ctx.fillStyle = G.flashFx.color; ctx.globalAlpha = 0.14;
+    ctx.fillRect(0,0,cv.width,cv.height); ctx.globalAlpha = 1;
+  }
+}
+
+/* ============================================================
+   十六、主迴圈與操作
+   ============================================================ */
+function loop(now){
+  if(G.phase === "pause" || G.phase === "title" || G.phase === "over") return;
+  var dt = (now - G.last)/1000; G.last = now;
+  if(dt > 0.1) dt = 0.1;
+  update(dt);
+  if(G.choicesDirty){ G.choicesDirty = false; renderChoices(); }
+  draw();
+  if(G.phase === "pause" || G.phase === "title" || G.phase === "over") return;
+  requestAnimationFrame(loop);
+}
+function setDir(x,y){
+  if(G.phase !== "play" && G.phase !== "ready") return;
+  G.pac.want = {x:x, y:y};
+}
+var KEYS = {
+  ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0],
+  w:[0,-1], s:[0,1], a:[-1,0], d:[1,0], W:[0,-1], S:[0,1], A:[-1,0], D:[1,0]
+};
+document.addEventListener("keydown", function(e){
+  if(e.target && /TEXTAREA|INPUT|SELECT/.test(e.target.tagName)) return;
+  if(e.key === "Enter"){
+    if(G.phase === "title" || G.phase === "over"){ e.preventDefault(); newGame(); startGame(); }
+    return;
+  }
+  if(e.key === " " || e.code === "Space" || e.key === "p" || e.key === "P"){
+    e.preventDefault(); togglePause(); return;
+  }
+  var k = KEYS[e.key];
+  if(k){ e.preventDefault(); setDir(k[0],k[1]); audio(); }
+});
+var DIRS = {u:[0,-1], d:[0,1], l:[-1,0], r:[1,0]};
+Array.prototype.forEach.call(document.querySelectorAll(".pad button"), function(b){
+  b.addEventListener("click", function(){
+    var v = DIRS[b.getAttribute("data-dir")];
+    setDir(v[0], v[1]); audio();
+  });
+});
+var t0 = null;
+cv.addEventListener("touchstart", function(e){
+  var t = e.changedTouches[0]; t0 = {x:t.clientX, y:t.clientY};
+}, {passive:true});
+cv.addEventListener("touchmove", function(e){ e.preventDefault(); }, {passive:false});
+cv.addEventListener("touchend", function(e){
+  if(!t0) return;
+  var t = e.changedTouches[0], dx = t.clientX - t0.x, dy = t.clientY - t0.y;
+  t0 = null;
+  if(Math.abs(dx) < 16 && Math.abs(dy) < 16) return;
+  if(Math.abs(dx) > Math.abs(dy)) setDir(dx>0?1:-1, 0);
+  else setDir(0, dy>0?1:-1);
+}, {passive:true});
+
+function togglePause(){
+  if(G.phase === "play" || G.phase === "ready"){
+    G.pausedFrom = G.phase; G.phase = "pause";
+    veil.innerHTML = '<h2>PAUSED</h2><p>按空白鍵或下面的按鈕繼續。</p>' +
+                     '<button class="primary" data-act="resume">繼續</button>';
+    veil.hidden = false;
+  }else if(G.phase === "pause"){
+    G.phase = G.pausedFrom || "play";
+    veil.hidden = true; G.last = performance.now();
+    requestAnimationFrame(loop);
+  }
+}
+veil.addEventListener("click", function(e){
+  var b = e.target.closest ? e.target.closest("button[data-act]") : null;
+  if(!b) return;
+  audio();
+  var act = b.getAttribute("data-act");
+  if(act === "new"){ newGame(); startGame(); }
+  else if(act === "resume") togglePause();
+});
+$("btn-pause").addEventListener("click", togglePause);
+$("btn-restart").addEventListener("click", function(){ audio(); newGame(); startGame(); });
+$("btn-speak").addEventListener("click", function(){
+  if(G.q && G.q.row) speak(G.q.row.w);
+});
+$("btn-test").addEventListener("click", function(){
+  if(!endpoint()){ setSync("還沒有設定試算表網址（js/config.js 的 ENDPOINT）。","bad"); return; }
+  setSync("測試連線中…","busy");
+  GameKit.test().then(function(o){
+    if(o && o.ok) setSync("連線成功，試算表目前共有 " + o.count + " 筆紀錄。","ok");
+    else if(o && /token/.test(o.error || "")) setSync("連線成功，但通行碼不符。請確認 TOKEN 與 Code.gs 相同。","bad");
+    else setSync("連線到了，但回應格式不正確，請確認 Code.gs 已貼完整。","bad");
+  }, function(){
+    setSync("無法讀取回應。上傳成績通常仍可運作，請先玩一局，再開試算表確認。","bad");
+  });
+});
+$("btn-flush").addEventListener("click", function(){ flushQueue(false); });
+$("lb-box").addEventListener("toggle", function(){ if(this.open) loadLeaderboard(); });
+
+["m-mean","m-cloze","m-order","m-sound","opt-en"].forEach(function(id){
+  $(id).addEventListener("change", function(){
+    if(G.phase === "play" || G.phase === "pause" || G.phase === "ready"){ newQuestion(); draw(); }
+  });
+});
+$("opt-zhuyin").addEventListener("change", function(){ renderChoices(); });
+Array.prototype.forEach.call(document.querySelectorAll('input[name="need"]'), function(r){
+  r.addEventListener("change", function(){
+    if(G.phase === "title"){ G.needLeft = needPerLevel(); refreshNeed(); draw(); }
+  });
+});
+
+/* ============================================================
+   十七、啟動
+   ============================================================ */
+GameKit.bindPlayer($("p-name"), $("p-school"), $("p-class"));
+
+title();
+resize();
+(function(){
+  var n = GameKit.pending();
+  if(n && !endpoint()) setSync("有 " + n + " 筆成績尚未上傳，可按設定裡的「補傳待上傳成績」。","bad");
+})();
+})();
+</script>
+</body>
+</html>

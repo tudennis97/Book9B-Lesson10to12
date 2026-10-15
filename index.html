@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>布理斯本亞洲語文學校 華語遊戲館</title>
+<meta name="description" content="學華語向前走第九冊第十至十二課的華語練習遊戲：故宮詞語空戰、網路購物吃豆人、跳跳蛙過河。">
+<style>
+:root{
+  --night:#0b1026; --night-2:#141b3a; --line:#28325e; --text:#eef1ff; --muted:#949dc6;
+  --pass:#dcefe3; --pass-ink:#13261d; --pass-line:#9cc3ad;
+  --c1941:#e9c46a; --cpac:#ffe14d; --cfrog:#7ddc6a; --ok:#7fd68c; --bad:#ff7a7a;
+  --serif:"Noto Serif CJK TC","Noto Serif TC","Source Han Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC",system-ui,sans-serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;
+  -webkit-text-size-adjust:100%}
+.wrap{max-width:620px;margin:0 auto;padding:30px 16px 40px}
+
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,6vw,2.3rem);letter-spacing:.06em;
+  line-height:1.25;margin:0 0 4px}
+.sub{margin:0 0 22px;color:var(--muted);font-size:.9rem}
+
+/* 玩家證：整頁唯一的亮色物件8964習維尼中華民國臺獨 */
+.pass{position:relative;background:var(--pass);color:var(--pass-ink);border-radius:10px;
+  padding:16px 18px 14px;margin-bottom:26px}
+.pass::before,.pass::after{content:"";position:absolute;top:50%;width:18px;height:18px;margin-top:-9px;
+  border-radius:50%;background:var(--night)}
+.pass::before{left:-9px} .pass::after{right:-9px}
+.pass h2{font-family:var(--serif);font-size:1.05rem;margin:0 0 10px;letter-spacing:.12em;
+  border-bottom:1px dashed var(--pass-line);padding-bottom:8px}
+.fields{display:grid;grid-template-columns:2fr 1fr;gap:10px 12px}
+.fields label{display:flex;flex-direction:column;gap:2px;font-size:.74rem;color:#3d5a49}
+.fields label.full{grid-column:1/-1}
+.fields input{font-family:var(--serif);font-size:1.05rem;color:var(--pass-ink);background:transparent;
+  border:0;border-bottom:1.5px solid var(--pass-line);padding:4px 2px;border-radius:0;width:100%;min-width:0}
+.fields input:focus-visible{outline:none;border-bottom-color:var(--pass-ink)}
+.pass .note{margin:10px 0 0;font-size:.74rem;color:#4d6b5a}
+
+.games{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.game a{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;text-decoration:none;
+  color:inherit;background:var(--night-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.game a:hover{border-color:var(--accent)}
+.game a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.game svg{width:64px;height:64px;display:block}
+.game h3{margin:0 0 2px;font-family:var(--serif);font-size:1.18rem;color:var(--accent);letter-spacing:.04em}
+.game p{margin:0;font-size:.84rem;color:var(--muted);line-height:1.6}
+.game .go{font-size:.85rem;font-weight:700;color:#141414;background:var(--accent);border-radius:6px;
+  padding:7px 13px;white-space:nowrap}
+.g1941{--accent:var(--c1941)} .gpac{--accent:var(--cpac)} .gfrog{--accent:var(--cfrog)}
+@media (max-width:440px){
+  .game a{grid-template-columns:48px 1fr;padding:12px}
+  .game svg{width:48px;height:48px}
+  .game .go{grid-column:1/-1;text-align:center}
+}
+
+.teacher{margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+.teacher summary{cursor:pointer;font-size:.86rem;color:var(--muted)}
+.teacher .body{font-size:.84rem;line-height:1.75;padding-top:8px}
+.teacher button{font:inherit;color:var(--text);background:var(--night-2);border:1px solid var(--line);
+  border-radius:6px;padding:6px 12px;cursor:pointer;margin:4px 6px 0 0}
+.teacher button:focus-visible,.teacher summary:focus-visible{outline:2px solid var(--c1941);outline-offset:2px}
+.sync{min-height:1.4em;font-size:.8rem;color:var(--muted);margin-top:8px}
+.sync.ok{color:var(--ok)} .sync.bad{color:var(--bad)} .sync.busy{color:var(--c1941)}
+code{font-size:.85em;background:var(--night-2);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>布理斯本亞洲語文學校<br>華語遊戲館</h1>
+  <p class="sub">學華語向前走 第九冊 第十至十二課練習。先填好玩家證，再挑一個遊戲，每一局結束成績會自動交給老師。</p>
+
+  <section class="pass" aria-labelledby="pass-title">
+    <h2 id="pass-title">玩家證</h2>
+    <div class="fields">
+      <label class="full">姓名 <input id="p-name" type="text" maxlength="12" placeholder="請寫你的中文姓名" autocomplete="off"></label>
+      <label>學校 <input id="p-school" type="text" maxlength="30" autocomplete="off"></label>
+      <label>班級 <input id="p-class" type="text" maxlength="12" autocomplete="off"></label>
+    </div>
+    <p class="note">這張玩家證三個遊戲共用，只要填一次，這台裝置會記住。</p>
+  </section>
+
+  <ul class="games">
+    <li class="game g1941"><a href="air.html">
+      <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect width="16" height="16" fill="#0e3f66"/>
+        <rect x="3" y="7" width="10" height="2" fill="#a8b3a4"/>
+        <rect x="4" y="4" width="2" height="8" fill="#808f7c"/><rect x="10" y="4" width="2" height="8" fill="#808f7c"/>
+        <rect x="4" y="12" width="8" height="1" fill="#808f7c"/>
+        <rect x="7" y="5" width="2" height="5" fill="#c9d2c4"/><rect x="7" y="6" width="2" height="1" fill="#3b6fa0"/>
+        <rect x="5" y="1" width="1" height="2" fill="#fff6b0"/><rect x="10" y="1" width="1" height="2" fill="#fff6b0"/>
+      </svg>
+      <div><h3>故宮詞語空戰</h3><p>第十課〈故宮博物院〉。看題目擊落帶著正確詞語的敵機，可選注音、拼音、英文或聽發音提示。</p></div>
+      <span class="go">開始</span>
+    </a></li>
+
+    <li class="game gpac"><a href="pacman.html">
+      <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect width="16" height="16" fill="#05060b"/>
+        <path d="M5 3h4v1h2v1h1v1h-3v1h-2v2h2v1h3v1h-1v1h-2v1H5v-1H4v-1H3V6h1V5h1z" fill="#ffff00"/>
+        <rect x="13" y="7" width="2" height="2" fill="#ffb8ae"/>
+      </svg>
+      <div><h3>網路購物吃豆人</h3><p>第十一課〈網路購物〉。迷宮四角會出現詞卡，照題目吃下正確的那一張。</p></div>
+      <span class="go">開始</span>
+    </a></li>
+
+    <li class="game gfrog"><a href="frog.html">
+      <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect width="16" height="8" fill="#123c88"/><rect y="8" width="16" height="8" fill="#14141b"/>
+        <rect x="1" y="3" width="6" height="2" fill="#7a4a22"/>
+        <rect x="4" y="7" width="8" height="7" fill="#58d64f"/>
+        <rect x="3" y="7" width="1" height="2" fill="#3dbb3a"/><rect x="12" y="7" width="1" height="2" fill="#3dbb3a"/>
+        <rect x="3" y="12" width="1" height="2" fill="#3dbb3a"/><rect x="12" y="12" width="1" height="2" fill="#3dbb3a"/>
+        <rect x="5" y="7" width="2" height="2" fill="#fff"/><rect x="9" y="7" width="2" height="2" fill="#fff"/>
+        <rect x="6" y="7" width="1" height="1" fill="#111"/><rect x="10" y="7" width="1" height="1" fill="#111"/>
+      </svg>
+      <div><h3>跳跳蛙過河</h3><p>第十二課〈網路購物要小心〉。過馬路、渡河，跳進寫著正確答案的荷葉灣。</p></div>
+      <span class="go">開始</span>
+    </a></li>
+  </ul>
+
+  <details class="teacher">
+    <summary>老師專區：試算表連線</summary>
+    <div class="body">
+      <p>試算表網址與通行碼寫在 <code>js/config.js</code>。每一局會記錄姓名、學校、班級、IP 位址、結果與分數，
+        三個遊戲分別寫進同一份試算表的「故宮詞語空戰」「網路購物吃豆人」「跳跳蛙過河」工作表。</p>
+      <button id="btn-test">測試連線</button><button id="btn-flush">補傳本機暫存成績</button>
+      <div class="sync" id="sync"></div>
+    </div>
+  </details>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/gamekit.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  GameKit.bindPlayer($("p-name"), $("p-school"), $("p-class"));
+  GameKit.onStatus(function(msg, cls){ var el = $("sync"); el.textContent = msg; el.className = "sync" + (cls ? " " + cls : ""); });
+
+  $("btn-test").addEventListener("click", function(){
+    var el = $("sync");
+    if(!GameKit.hasEndpoint()){ el.textContent = "還沒有設定試算表網址：請在 js/config.js 填入 ENDPOINT。"; el.className = "sync bad"; return; }
+    el.textContent = "測試連線中…"; el.className = "sync busy";
+    GameKit.test().then(function(o){
+      if(o && o.ok && o.games){
+        el.textContent = "連線成功。" + o.games.map(function(g){ return g.sheet + " " + g.rows + " 筆"; }).join("，") + "。";
+        el.className = "sync ok";
+      }else if(o && /token/.test(o.error || "")){ el.textContent = "連線成功，但通行碼不符。"; el.className = "sync bad"; }
+      else { el.textContent = "連到了，但回應格式不對，請確認 Code.gs 已整份貼上並重新部署。"; el.className = "sync bad"; }
+    }, function(){
+      el.textContent = "讀不到回應。請確認部署時「誰可以存取」設為「任何人」，網址以 /exec 結尾。"; el.className = "sync bad";
+    });
+    GameKit.ip().then(function(ip){ el.textContent += "　本機 IP：" + ip; });
+  });
+  $("btn-flush").addEventListener("click", function(){ GameKit.flush(false); });
+
+  // 沒填姓名就點遊戲時提醒一下（仍可繼續）
+  Array.prototype.forEach.call(document.querySelectorAll(".game a"), function(a){
+    a.addEventListener("click", function(e){
+      if(!$("p-name").value.trim()){
+        e.preventDefault(); $("p-name").focus();
+        $("p-name").placeholder = "請先寫姓名，成績才找得到你";
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

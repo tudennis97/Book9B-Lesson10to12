@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>跳跳蛙過河：第十二課練習 ── 布理斯本亞洲語文學校遊戲館</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#dde8ec; --panel:#ffffff; --ink:#1f2a36; --muted:#55687a; --accent:#d9971a;
+  --line:#b7c8d1; --btn:#2f4858; --btnink:#ffffff; --bar:#6a994e; --barlow:#d1495b;
+  --good:#2e7d4f; --bad:#c0392b; --goodbg:#e3f3e8; --badbg:#fbe7e4;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#162029; --panel:#213040; --ink:#e7eef3; --muted:#9db0bf; --accent:#f4c95d;
+    --line:#33495b; --btn:#3d5c71; --btnink:#ffffff; --bar:#8cc06a; --barlow:#ef6f7f;
+    --good:#8fd9a8; --bad:#ff9b8f; --goodbg:#1f3a2c; --badbg:#41262a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#162029; --panel:#213040; --ink:#e7eef3; --muted:#9db0bf; --accent:#f4c95d;
+  --line:#33495b; --btn:#3d5c71; --btnink:#ffffff; --bar:#8cc06a; --barlow:#ef6f7f;
+  --good:#8fd9a8; --bad:#ff9b8f; --goodbg:#1f3a2c; --badbg:#41262a;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Huninn","PingFang TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;
+  line-height:1.6;
+}
+main{max-width:600px;margin:0 auto;padding:16px 12px 28px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+h1{font-size:1.7rem;margin:0;letter-spacing:.03em;line-height:1.3}
+h1 small{display:block;font-size:.9rem;color:var(--muted);letter-spacing:0}
+.tools{display:flex;gap:8px}
+button{
+  font:inherit;cursor:pointer;border:0;border-radius:8px;
+  background:var(--btn);color:var(--btnink);padding:6px 14px;
+}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hud{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:4px;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:6px 10px;margin-bottom:8px;
+}
+.hud div{display:flex;flex-direction:column;min-width:0}
+.hud small{color:var(--muted);font-size:.78rem}
+.hud b{font-size:1.15rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+#lives{color:var(--bar);letter-spacing:1px}
+
+.quiz{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;margin-bottom:8px;
+}
+.qtype{display:inline-block;font-size:.8rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 10px}
+.qbox{display:grid;margin:6px 0 8px;font-size:1.35rem;min-height:4.4em}
+.qbox>*{grid-area:1/1}
+#qtext{margin:0;line-height:1.5;align-self:center}
+.fb{margin:0;padding:6px 12px;border-radius:8px;font-size:1.05rem;line-height:1.5;display:flex;align-items:center}
+.fb.good{background:var(--goodbg);color:var(--good)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb[hidden]{display:none}
+
+.stage{position:relative}
+canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:none;background:#1f6f8b}
+.timer{height:10px;background:var(--panel);border:1px solid var(--line);border-radius:6px;margin-top:8px;overflow:hidden}
+#bar{height:100%;width:100%;background:var(--bar)}
+#bar.low{background:var(--barlow)}
+.overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;padding:16px;text-align:center;border-radius:10px;overflow:auto;
+  background:rgba(14,26,36,.86);color:#fff;
+}
+.overlay[hidden]{display:none}
+.overlay h2{font-size:2rem;margin:0;line-height:1.3}
+.overlay p{margin:0;max-width:36ch;color:#d7e3ea}
+.overlay .go{background:#f4c95d;color:#1f2a36;font-size:1.15rem;padding:8px 26px;margin-top:4px}
+.cats{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.cats[hidden]{display:none}
+.cats button{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);padding:4px 12px;font-size:.95rem}
+.cats button[aria-pressed="true"]{background:#f4c95d;color:#1f2a36;border-color:#f4c95d}
+.missed{max-height:9.5em;overflow:auto;text-align:left;background:rgba(255,255,255,.08);border-radius:8px;padding:6px 12px;margin:0;width:min(100%,420px);font-size:.95rem}
+.missed[hidden]{display:none}
+.missed li{margin:2px 0}
+.missed b{color:#f4c95d}
+
+.pad{display:none;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,56px);gap:8px;justify-content:center;margin-top:12px}
+.pad button{font-size:1.5rem;padding:0}
+.pad .up{grid-column:2}
+.pad .left{grid-column:1;grid-row:2}
+.pad .down{grid-column:2;grid-row:2}
+.pad .right{grid-column:3;grid-row:2}
+@media (pointer:coarse){.pad{display:grid}}
+.help{color:var(--muted);font-size:.92rem;margin-top:12px}
+.home{font-size:.88rem;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:4px}
+.home:hover{color:var(--ink)}
+.player{display:grid;grid-template-columns:1fr 1.6fr .8fr;gap:8px;margin-bottom:8px}
+.player label{display:flex;flex-direction:column;gap:2px;font-size:.8rem;color:var(--muted);min-width:0}
+.player input{font:inherit;font-size:1rem;color:var(--ink);background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;padding:5px 9px;width:100%;min-width:0}
+.player input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.player input.need{border-color:var(--bad)}
+@media (max-width:420px){ .player{grid-template-columns:1fr 1fr} .player .school{grid-column:1/-1;order:3} }
+.sync{min-height:1.4em;font-size:.88rem;color:var(--muted);text-align:center;margin:6px 0 0}
+.sync.ok{color:var(--good)} .sync.bad{color:var(--bad)} .sync.busy{color:var(--accent)}
+@media (max-width:420px){
+  .qbox{font-size:1.15rem;min-height:5.6em}
+  .hud b{font-size:1rem}
+}
+</style>
+</head>
+<body>
+<main>
+  <a class="home" href="index.html">← 回遊戲館</a>
+  <header>
+    <h1>跳跳蛙過河<small>學華語向前走 9B 第十二課：網路購物要小心</small></h1>
+    <div class="tools">
+      <button id="pauseBtn" type="button">暫停</button>
+      <button id="soundBtn" type="button">音效：開</button>
+    </div>
+  </header>
+
+  <div class="player">
+    <label>姓名 <input id="p-name" maxlength="16" autocomplete="off" placeholder="中文姓名"></label>
+    <label class="school">學校 <input id="p-school" maxlength="30" autocomplete="off"></label>
+    <label>班級 <input id="p-class" maxlength="12" autocomplete="off"></label>
+  </div>
+
+  <div class="hud" aria-live="polite">
+    <div><small>分數</small><b id="score">0</b></div>
+    <div><small>最高分</small><b id="best">0</b></div>
+    <div><small>關卡</small><b id="level">1</b></div>
+    <div><small>本關答對</small><b id="prog">0/5</b></div>
+    <div><small>生命</small><b id="lives"></b></div>
+  </div>
+
+  <section class="quiz" aria-live="polite">
+    <span class="qtype" id="qtype">準備開始</span>
+    <div class="qbox">
+      <p id="qtext">按「開始遊戲」，題目會出現在這裡。</p>
+      <p class="fb" id="qfb" hidden></p>
+    </div>
+  </section>
+
+  <div class="stage">
+    <canvas id="game" aria-label="遊戲畫面"></canvas>
+    <div class="overlay" id="overlay">
+      <h2 id="ovTitle">跳跳蛙過河</h2>
+      <p id="ovText">看清楚題目，穿過車陣、踩著浮木和烏龜渡河，跳進寫著正確答案的荷葉灣。答對五題就過關。</p>
+      <ol class="missed" id="ovList" hidden></ol>
+      <div class="cats" id="cats" role="group" aria-label="選擇題型">
+        <button type="button" data-cat="all" aria-pressed="true">全部題型</button>
+        <button type="button" data-cat="cloze" aria-pressed="false">生詞填空</button>
+        <button type="button" data-cat="read" aria-pressed="false">認字讀音</button>
+        <button type="button" data-cat="meaning" aria-pressed="false">詞義</button>
+        <button type="button" data-cat="comp" aria-pressed="false">閱讀理解</button>
+      </div>
+      <button class="go" id="ovBtn" type="button">開始遊戲</button>
+    </div>
+  </div>
+  <div class="timer"><div id="bar"></div></div>
+  <p class="sync" id="sync" aria-live="polite"></p>
+
+  <div class="pad" aria-label="方向鍵">
+    <button class="up" data-dir="up" aria-label="上">▲</button>
+    <button class="left" data-dir="left" aria-label="左">◀</button>
+    <button class="down" data-dir="down" aria-label="下">▼</button>
+    <button class="right" data-dir="right" aria-label="右">▶</button>
+  </div>
+
+  <p class="help">鍵盤用方向鍵或 WASD 移動，P 暫停。手機可在畫面上滑動，輕點一下往前跳。五個選項寫在畫面最上方的荷葉灣裡。跳錯答案會失去一條命，這題稍後還會再出現。紅殼烏龜會潛水，變淡時要快跳開。</p>
+</main>
+
+<script src="js/config.js"></script>
+<script src="js/gamekit.js"></script>
+<script>
+(() => {
+  // ================= 題庫：第十二課 網路購物要小心（複習二） =================8964習維尼中華民國臺獨
+  // t: cloze 生詞填空 / meaning 詞義 / comp 閱讀理解；q 題目（＿＿為空格）；a 答案；d 四個誘答；n 解說（可省略）
+  const BANK = [
+    { t:'cloze', q:'這個購物網站正在＿＿日用品，我們要不要買一些？', a:'促銷', d:['退貨','服務','運費','比較'] },
+    { t:'cloze', q:'牙膏、＿＿都還沒用光。', a:'洗髮精', d:['燈籠','謎語','牌子','藝術品'] },
+    { t:'cloze', q:'網站那些＿＿沒用過，萬一買到不滿意的東西怎麼辦？', a:'牌子', d:['客人','謎語','運費','環境'] },
+    { t:'cloze', q:'萬一買到不＿＿的東西怎麼辦？', a:'滿意', d:['熱鬧','拿手','安全','仔細'] },
+    { t:'cloze', q:'只要＿＿地挑，應該不會吧？', a:'仔細', d:['熱鬧','滿意','安全','拿手'] },
+    { t:'cloze', q:'上次爸爸在賣＿＿的網站上買了一幅畫。', a:'藝術品', d:['日用品','洗髮精','燈籠','牙膏'] },
+    { t:'cloze', q:'網站上的圖片很漂亮，看起來＿＿。', a:'栩栩如生', d:['成千上萬','各式各樣','不小心','一下子'] },
+    { t:'cloze', q:'他收到以後仔細一看，發現跟本來的圖片＿＿了很多。', a:'差', d:['猜','挑','退','留'] },
+    { t:'cloze', q:'既然他不滿意就＿＿啊！', a:'退貨', d:['促銷','比較','參觀','體驗'] },
+    { t:'cloze', q:'很多購物網站都有退貨的＿＿。', a:'服務', d:['運費','習俗','謎語','氣氛'] },
+    { t:'cloze', q:'雖然可以退貨，但是還要再付＿＿。', a:'運費', d:['服務','牌子','樂趣','客人'] },
+    { t:'cloze', q:'＿＿東西看起來多麼好，爸爸都不願意買了。', a:'不論', d:['雖然','既然','萬一','只要'] },
+    { t:'cloze', q:'他們常常以各式各樣的方式來吸引＿＿。', a:'客人', d:['牌子','燈籠','環境','謎語'] },
+    { t:'cloze', q:'買東西以前一定要多＿＿。', a:'比較', d:['促銷','退貨','參觀','猜'] },
+    { t:'cloze', q:'不能因為＿＿就買了太多東西。', a:'省時', d:['運費','安全','拿手','熱鬧'] },
+    { t:'cloze', q:'古代人在元宵節那天會先把紙做成＿＿。', a:'燈籠', d:['謎語','燈會','藝術品','牙膏'] },
+    { t:'cloze', q:'然後再把＿＿貼在燈籠上讓大家猜。', a:'謎語', d:['牌子','圖片','運費','垃圾'] },
+    { t:'cloze', q:'有的人猜燈謎很＿＿，常常一下子就猜出來了。', a:'拿手', d:['安全','滿意','熱鬧','仔細'] },
+    { t:'cloze', q:'華人在元宵節常以＿＿的方式來介紹傳統文化。', a:'燈會', d:['購物','退貨','運費','促銷'] },
+    { t:'cloze', q:'各式各樣的花燈吸引了＿＿的人來參觀。', a:'成千上萬', d:['栩栩如生','仔細','拿手','安全'] },
+    { t:'cloze', q:'＿＿的花燈吸引了很多人來參觀。', a:'各式各樣', d:['栩栩如生','不小心','一下子','省時'] },
+    { t:'cloze', q:'熱鬧的氣氛讓大家＿＿了元宵節的樂趣。', a:'體驗', d:['退貨','促銷','比較','跌倒'] },
+    { t:'cloze', q:'燈會用來介紹傳統文化和＿＿。', a:'習俗', d:['運費','牌子','客人','垃圾'] },
+    { t:'cloze', q:'參觀的人可能＿＿幾萬人。', a:'多達', d:['不論','萬一','省時','只要'] },
+    { t:'cloze', q:'人一多，＿＿就多，會影響環境。', a:'垃圾', d:['燈籠','謎語','樂趣','客人'] },
+    { t:'cloze', q:'＿＿不小心跌倒，還可能受傷。', a:'萬一', d:['不論','既然','雖然','只要'] },
+    { t:'cloze', q:'參加燈會時，不只要注意＿＿，離開時也不要留下垃圾。', a:'安全', d:['熱鬧','拿手','滿意','運費'] },
+    { t:'cloze', q:'＿＿的燈會也帶來了一些問題。', a:'熱鬧', d:['仔細','滿意','拿手','省時'] },
+
+    { t:'meaning', q:'「牌子」的英文意思是什麼？', a:'brand', d:['differ','how','customer','lantern'] },
+    { t:'meaning', q:'「差」（chā）的英文意思是什麼？', a:'differ', d:['brand','how','choose','return'] },
+    { t:'meaning', q:'「多麼」的英文意思是什麼？', a:'how', d:['many','brand','differ','customer'] },
+    { t:'meaning', q:'「客人」的英文意思是什麼？', a:'customer', d:['brand','guest star','seller','lantern'] },
+    { t:'meaning', q:'「燈籠」的英文意思是什麼？', a:'lantern', d:['riddle','brand','festival','picture'] },
+    { t:'meaning', q:'「謎語」的英文意思是什麼？', a:'riddle', d:['lantern','custom','answer','brand'] },
+    { t:'meaning', q:'「運費」的英文意思是什麼？', a:'shipping', d:['service','discount','refund','brand'] },
+    { t:'meaning', q:'「習俗」的英文意思是什麼？', a:'custom', d:['customer','riddle','safety','brand'] },
+    { t:'meaning', q:'「安全」的英文意思是什麼？', a:'safety', d:['custom','lively','skillful','satisfied'] },
+    { t:'meaning', q:'哪一個詞是「很會做某件事」的意思？', a:'拿手', d:['仔細','熱鬧','滿意','安全'] },
+    { t:'meaning', q:'「栩栩如生」是什麼意思？', a:'像真的一樣', d:['很多人','很多種','很便宜','很危險'], n:'栩栩如生：形容圖畫或作品非常逼真，好像活的一樣。' },
+    { t:'meaning', q:'「成千上萬」是什麼意思？', a:'非常多', d:['非常少','非常貴','非常快','非常遠'], n:'成千上萬：形容數量非常多。' },
+
+    { t:'comp', q:'謎語「給一半，留一半」，猜一個字，答案是？', a:'細', d:['半','給','留','紙'], n:'「給」留下一半是「糸」，「留」留下一半是「田」，合起來就是「細」。' },
+    { t:'comp', q:'方晨在購物網站上看到什麼正在促銷？', a:'日用品', d:['藝術品','燈籠','名牌包','相機'] },
+    { t:'comp', q:'上次爸爸在網站上買了什麼？', a:'一幅畫', d:['牙膏','燈籠','洗髮精','相機'] },
+    { t:'comp', q:'爸爸挑了多久才決定？', a:'好幾小時', d:['幾分鐘','一整個月','一秒鐘','兩個星期'], n:'媽媽說：爸爸挑了好幾個小時才決定。' },
+    { t:'comp', q:'爸爸收到畫以後，為什麼不滿意？', a:'跟圖片不同', d:['畫太大了','運費太貴','送太慢','畫壞掉了'], n:'他仔細一看，發現跟本來的圖片差了很多。' },
+    { t:'comp', q:'現在爸爸還願意在網路上買東西嗎？', a:'不願意', d:['很願意','常常買','只買畫','每天買'] },
+    { t:'comp', q:'方晨認為網路購物前一定要做什麼？', a:'多比較', d:['快點買','多買點','不要看','先退貨'] },
+    { t:'comp', q:'古代人在元宵節會玩什麼？', a:'猜燈謎', d:['吃粽子','划龍舟','賞月亮','拆禮物'] },
+    { t:'comp', q:'熱鬧的燈會帶來了什麼問題？', a:'垃圾變多', d:['東西太貴','運費太高','沒有燈籠','天氣太冷'] },
+    { t:'comp', q:'哪一個節日有猜燈謎的活動？', a:'元宵節', d:['端午節','中秋節','聖誕節','清明節'] },
+    { t:'comp', q:'哪一個節日會吃粽子？', a:'端午節', d:['元宵節','中秋節','聖誕節','農曆新年'] },
+    { t:'comp', q:'看圖：「折很大福利社」可以免費領多少錢的折價券？', a:'450元', d:['300元','45元','4500元','150元'] },
+    { t:'comp', q:'看圖：這個促銷活動幾月幾號開始？', a:'9月19日', d:['9月21日','9月3日','10月19日','9月30日'] },
+    { t:'comp', q:'看圖：這個促銷活動有幾天？', a:'三天', d:['一天','兩天','五天','一星期'], n:'9/19 到 9/21，限時三天。' },
+    { t:'comp', q:'網路購物有什麼好處？', a:'省時方便', d:['不能退貨','運費很貴','容易受傷','圖片不同'] }
+  ];
+  // 我會念：字、漢語拼音、注音、詞例
+  const CHARS = [
+    ['購','gòu','ㄍㄡˋ','購物'], ['銷','xiāo','ㄒㄧㄠ','促銷'], ['促','cù','ㄘㄨˋ','促銷'], ['膏','gāo','ㄍㄠ','牙膏'],
+    ['精','jīng','ㄐㄧㄥ','洗髮精'], ['牌','pái','ㄆㄞˊ','牌子'], ['挑','tiāo','ㄊㄧㄠ','挑選'], ['幅','fú','ㄈㄨˊ','一幅畫'],
+    ['栩','xǔ','ㄒㄩˇ','栩栩如生'], ['仔','zǐ','ㄗˇ','仔細'], ['退','tuì','ㄊㄨㄟˋ','退貨'], ['務','wù','ㄨˋ','服務'],
+    ['籠','lóng','ㄌㄨㄥˊ','燈籠'], ['謎','mí','ㄇㄧˊ','謎語'], ['猜','cāi','ㄘㄞ','猜燈謎'], ['案','àn','ㄢˋ','答案'],
+    ['俗','sú','ㄙㄨˊ','習俗'], ['驗','yàn','ㄧㄢˋ','體驗'], ['萬','wàn','ㄨㄢˋ','萬一'], ['安','ān','ㄢ','安全']
+  ];
+  const CAT_NAMES = { cloze:'生詞填空', read:'認字讀音', meaning:'詞義', comp:'閱讀理解' };
+  const PER_LEVEL = 5;
+
+  const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+  function buildPool(cat) {
+    const pool = BANK.filter(q => cat === 'all' || q.t === cat);
+    if (cat === 'all' || cat === 'read') {
+      CHARS.forEach(c => pool.push({
+        t:'read', q:`哪一個字念「${c[1]}」（${c[2]}）？`, a:c[0],
+        d: shuffle(CHARS.filter(x => x[0] !== c[0])).slice(0, 4).map(x => x[0]),
+        n:`${c[0]}：${c[1]}（${c[2]}），${c[3]}的「${c[0]}」。`
+      }));
+    }
+    return shuffle(pool);
+  }
+  function explain(q) {
+    if (q.n) return q.n;
+    if (q.t === 'cloze') return '完整句子：' + q.q.replace('＿＿', '「' + q.a + '」');
+    return '正確答案是「' + q.a + '」。';
+  }
+
+  // ================= 遊戲本體 =================
+  const T = 40, COLS = 14, ROWS = 13, W = T * COLS, H = T * ROWS;
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const DPR = Math.min(2, window.devicePixelRatio || 1);
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+  const $ = id => document.getElementById(id);
+  const ui = {
+    score: $('score'), best: $('best'), level: $('level'), lives: $('lives'), prog: $('prog'), bar: $('bar'),
+    overlay: $('overlay'), ovTitle: $('ovTitle'), ovText: $('ovText'), ovBtn: $('ovBtn'), ovList: $('ovList'), cats: $('cats'),
+    pauseBtn: $('pauseBtn'), soundBtn: $('soundBtn'),
+    qtype: $('qtype'), qtext: $('qtext'), qfb: $('qfb')
+  };
+
+  const BEST_KEY = 'hop-frog-l12-best';
+  let startedAt = Date.now();
+  const CAT_LABEL = { all:'全部題型', cloze:'生詞填空', read:'認字讀音', meaning:'詞義', comp:'閱讀理解' };
+  let best = 0;
+  try { best = parseInt(localStorage.getItem(BEST_KEY), 10) || 0; } catch (e) { best = 0; }
+
+  // ---------- 音效 ----------
+  let audio = null, soundOn = true;
+  function beep(freq, dur = 0.08, type = 'square', vol = 0.06, slide = 0) {
+    if (!soundOn) return;
+    try {
+      if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)();
+      const o = audio.createOscillator(), g = audio.createGain(), t = audio.currentTime;
+      o.type = type; o.frequency.setValueAtTime(freq, t);
+      if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40, freq + slide), t + dur);
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(audio.destination); o.start(t); o.stop(t + dur + 0.02);
+    } catch (e) {}
+  }
+  const sfx = {
+    hop: () => beep(520, 0.06, 'square', 0.04, 200),
+    splash: () => beep(300, 0.4, 'sine', 0.08, -220),
+    crash: () => beep(160, 0.35, 'sawtooth', 0.07, -100),
+    right: () => { beep(660, 0.1, 'triangle', 0.08); setTimeout(() => beep(880, 0.16, 'triangle', 0.08), 110); },
+    wrong: () => { beep(330, 0.18, 'square', 0.06); setTimeout(() => beep(220, 0.3, 'square', 0.06), 160); },
+    clear: () => [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => beep(f, 0.16, 'triangle', 0.07), i * 120)),
+    over: () => [392, 330, 262].forEach((f, i) => setTimeout(() => beep(f, 0.25, 'triangle', 0.07), i * 200))
+  };
+
+  // ---------- 場景 ----------
+  const BAYS = [0, 1, 2, 3, 4].map(i => W * (i + 0.5) / 5);
+  const BAY_W = 88, BAY_TOL = 36;
+  const BAY_COLORS = ['#f4c95d', '#ef8fb0', '#8ecae6', '#c3a6e8', '#f4a259'];
+  const LANE_DEFS = [
+    { row: 1, type: 'log', speed: 50, len: 3, count: 3 },
+    { row: 2, type: 'turtle', speed: -65, len: 2, count: 4, dive: [1] },
+    { row: 3, type: 'log', speed: 85, len: 5, count: 2 },
+    { row: 4, type: 'log', speed: 40, len: 2, count: 4 },
+    { row: 5, type: 'turtle', speed: -55, len: 3, count: 3, dive: [0] },
+    { row: 7, type: 'truck', speed: -45, len: 2, count: 3, color: '#f4a259' },
+    { row: 8, type: 'car', speed: 100, len: 1, count: 3, color: '#f4c95d' },
+    { row: 9, type: 'car', speed: -65, len: 1, count: 4, color: '#e76f51' },
+    { row: 10, type: 'car', speed: 55, len: 1, count: 3, color: '#8ecae6' },
+    { row: 11, type: 'car', speed: -42, len: 1, count: 3, color: '#c3a6e8' }
+  ];
+  const DIVE_CYCLE = 5;
+
+  let lanes = [], laneByRow = {};
+  function buildLanes(lv) {
+    const mult = Math.min(2.2, 1 + 0.15 * (lv - 1));
+    lanes = LANE_DEFS.map(d => {
+      const w = d.len * T, m = w + T, span = W + m;
+      const items = [];
+      for (let i = 0; i < d.count; i++) {
+        items.push({
+          x: -m + i * span / d.count + Math.random() * 10, w,
+          dive: !!(d.dive && d.dive.includes(i)) || (lv >= 3 && d.type === 'turtle' && i === d.count - 1),
+          phase: Math.random() * DIVE_CYCLE
+        });
+      }
+      return { ...d, speed: d.speed * mult, m, span, items };
+    });
+    laneByRow = {};
+    lanes.forEach(l => laneByRow[l.row] = l);
+  }
+  function diveState(it) {
+    if (!it.dive) return 0;
+    const p = it.phase % DIVE_CYCLE;
+    if (p < 3) return 0;
+    if (p < 3.6) return (p - 3) / 0.6 * 0.7;
+    if (p < 4.6) return 1;
+    return (1 - (p - 4.6) / 0.4) * 0.7;
+  }
+
+  // ---------- 狀態 ----------
+  const TIME_LIMIT = 45;
+  let state = 'title', cat = 'all', score = 0, level = 1, lives = 3, progress = 0;
+  let frog, timeLeft, furthest, deathT = 0, deathKind = '', deathAt = null, clearT = 0, extraGiven = false;
+  let queue = [], cur = null, options = [], correctIdx = 0;
+  let fbT = 0, landedBay = -1, landedRight = false;
+  let stats = { right: 0, wrong: 0 }, missed = [];
+  let clock = 0;
+
+  function resetFrog() {
+    frog = { x: W / 2 - T / 2, row: 12, dir: 0, squash: 0 };
+    furthest = 12; timeLeft = TIME_LIMIT;
+  }
+
+  function nextQuestion() {
+    if (!queue.length) queue = buildPool(cat);
+    cur = queue.shift();
+    options = shuffle([cur.a, ...shuffle(cur.d).slice(0, 4)]);
+    correctIdx = options.indexOf(cur.a);
+    ui.qtype.textContent = CAT_NAMES[cur.t];
+    ui.qtext.textContent = cur.q;
+    ui.qfb.hidden = true;
+  }
+
+  function newGame() {
+    score = 0; level = 1; lives = 3; progress = 0; extraGiven = false;
+    stats = { right: 0, wrong: 0 }; missed = []; startedAt = Date.now();
+    $('sync').textContent = '';
+    queue = buildPool(cat);
+    buildLanes(level); resetFrog(); nextQuestion();
+    state = 'play'; hideOverlay(); syncHud();
+  }
+
+  function addScore(n) {
+    score += n;
+    if (!extraGiven && score >= 3000) { extraGiven = true; lives++; beep(990, 0.2, 'triangle'); }
+    if (score > best) { best = score; try { localStorage.setItem(BEST_KEY, String(best)); } catch (e) {} }
+  }
+
+  function move(dir) {
+    if (state !== 'play') return;
+    const angles = { up: 0, right: 90, down: 180, left: 270 };
+    frog.dir = angles[dir];
+    if (dir === 'up' && frog.row > 0) frog.row--;
+    else if (dir === 'down' && frog.row < 12) frog.row++;
+    else if (dir === 'left') frog.x = Math.max(0, frog.x - T);
+    else if (dir === 'right') frog.x = Math.min(W - T, frog.x + T);
+    else return;
+    if (frog.row < furthest) { furthest = frog.row; addScore(5); }
+    frog.squash = 0.14;
+    sfx.hop();
+  }
+
+  function die(kind) {
+    state = 'dying'; deathT = 1.3; deathKind = kind;
+    deathAt = { x: frog.x + T / 2, y: frog.row * T + T / 2 };
+    lives--;
+    kind === 'water' ? sfx.splash() : sfx.crash();
+  }
+
+  function answer(i) {
+    landedBay = i; landedRight = i === correctIdx;
+    if (landedRight) {
+      stats.right++; progress++;
+      addScore(100 + Math.floor(timeLeft) * 5);
+      ui.qfb.className = 'fb good';
+      ui.qfb.textContent = '答對了！' + (cur.t === 'cloze' ? cur.q.replace('＿＿', '「' + cur.a + '」') : explain(cur));
+      sfx.right(); fbT = 2.2;
+    } else {
+      stats.wrong++; lives--;
+      if (!missed.includes(cur)) missed.push(cur);
+      queue.splice(Math.min(3, queue.length), 0, cur);
+      ui.qfb.className = 'fb bad';
+      ui.qfb.textContent = '不對喔！' + (cur.t === 'cloze' ? cur.q.replace('＿＿', '「' + cur.a + '」') : '正確答案是「' + cur.a + '」。' + (cur.n || ''));
+      sfx.wrong(); fbT = 3.6;
+    }
+    ui.qfb.hidden = false;
+    state = 'feedback';
+  }
+
+  function update(dt) {
+    clock += dt;
+    lanes.forEach(l => l.items.forEach(it => {
+      it.x += l.speed * dt;
+      if (l.speed > 0 && it.x >= W) it.x -= l.span;
+      if (l.speed < 0 && it.x < -l.m) it.x += l.span;
+      if (it.dive) it.phase += dt;
+    }));
+
+    if (state === 'dying') {
+      deathT -= dt;
+      if (deathT <= 0) {
+        if (lives <= 0) { gameOver(); return; }
+        resetFrog(); state = 'play';
+      }
+      return;
+    }
+    if (state === 'feedback') {
+      fbT -= dt;
+      if (fbT <= 0) {
+        if (lives <= 0) { gameOver(); return; }
+        if (progress >= PER_LEVEL) { addScore(500); state = 'clear'; clearT = 2.2; sfx.clear(); return; }
+        nextQuestion(); resetFrog(); state = 'play';
+      }
+      return;
+    }
+    if (state === 'clear') {
+      clearT -= dt;
+      if (clearT <= 0) { level++; progress = 0; buildLanes(level); nextQuestion(); resetFrog(); state = 'play'; }
+      return;
+    }
+    if (state !== 'play') return;
+
+    if (frog.squash > 0) frog.squash -= dt;
+    timeLeft -= dt;
+    if (timeLeft <= 0) { die('time'); return; }
+
+    const cx = frog.x + T / 2, row = frog.row;
+    if (row >= 1 && row <= 5) {
+      const lane = laneByRow[row];
+      const on = lane.items.find(it => cx > it.x + 4 && cx < it.x + it.w - 4 && diveState(it) < 1);
+      if (!on) { die('water'); return; }
+      frog.x += lane.speed * dt;
+      if (frog.x < -T * 0.45 || frog.x > W - T * 0.55) { die('water'); return; }
+    } else if (row >= 7 && row <= 11) {
+      const lane = laneByRow[row];
+      const fl = frog.x + 9, fr = frog.x + T - 9;
+      if (lane.items.some(it => fr > it.x + 3 && fl < it.x + it.w - 3)) { die('road'); return; }
+    } else if (row === 0) {
+      const i = BAYS.findIndex(bx => Math.abs(cx - bx) < BAY_TOL);
+      if (i < 0) { die('hedge'); return; }
+      answer(i);
+    }
+  }
+
+  // ---------- 繪圖 ----------
+  function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h); }
+  const FONT = '"Huninn","PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif';
+
+  function fitText(text, maxW, size) {
+    let s = size;
+    do { ctx.font = `bold ${s}px ${FONT}`; s--; } while (ctx.measureText(text).width > maxW && s > 9);
+  }
+
+  function drawBackground() {
+    ctx.fillStyle = '#2d6a4f'; ctx.fillRect(0, 0, W, T);
+    ctx.fillStyle = '#40916c';
+    for (let x = 0; x < W; x += 10) { ctx.beginPath(); ctx.arc(x + 5, T - 3, 6, Math.PI, 0); ctx.fill(); }
+    BAYS.forEach((bx, i) => {
+      ctx.fillStyle = '#1b5f78'; rr(bx - BAY_W / 2, 3, BAY_W, T - 5, 8); ctx.fill();
+      ctx.strokeStyle = BAY_COLORS[i]; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = 'rgba(116,198,157,.35)';
+      ctx.beginPath(); ctx.moveTo(bx, T / 2 + 1); ctx.arc(bx, T / 2 + 1, 14, 0.35, Math.PI * 2 - 0.35); ctx.closePath(); ctx.fill();
+      if ((state === 'play' || state === 'dying' || state === 'paused' || state === 'feedback') && options[i]) {
+        fitText(options[i], BAY_W - 8, 21);
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(10,30,40,.85)'; ctx.strokeText(options[i], bx, T / 2 + 1);
+        ctx.fillStyle = '#ffffff'; ctx.fillText(options[i], bx, T / 2 + 1);
+      }
+    });
+    ctx.fillStyle = '#1f6f8b'; ctx.fillRect(0, T, W, T * 5);
+    ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 2;
+    for (let r = 1; r <= 5; r++) {
+      const off = (clock * 18 * (r % 2 ? 1 : -1)) % 60;
+      for (let x = -60; x < W + 60; x += 60) {
+        ctx.beginPath(); ctx.moveTo(x + off, r * T + 22);
+        ctx.quadraticCurveTo(x + off + 10, r * T + 16, x + off + 20, r * T + 22); ctx.stroke();
+      }
+    }
+    [6, 12].forEach(r => {
+      ctx.fillStyle = '#9a8cb5'; ctx.fillRect(0, r * T, W, T);
+      ctx.strokeStyle = 'rgba(40,30,60,.25)'; ctx.lineWidth = 1;
+      for (let x = (r === 6 ? 0 : 20); x < W; x += 40) ctx.strokeRect(x + .5, r * T + .5, 40, T - 1);
+    });
+    ctx.fillStyle = '#33364a'; ctx.fillRect(0, 7 * T, W, T * 5);
+    ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 2; ctx.setLineDash([16, 14]);
+    for (let r = 8; r <= 11; r++) { ctx.beginPath(); ctx.moveTo(0, r * T); ctx.lineTo(W, r * T); ctx.stroke(); }
+    ctx.setLineDash([]);
+  }
+
+  function drawLog(it, y) {
+    const x = it.x, w = it.w;
+    ctx.fillStyle = '#7f5539'; rr(x + 1, y + 6, w - 2, T - 12, 12); ctx.fill();
+    ctx.strokeStyle = '#5e3c25'; ctx.lineWidth = 2;
+    for (let gx = x + 18; gx < x + w - 18; gx += 22) {
+      ctx.beginPath(); ctx.moveTo(gx, y + 13); ctx.lineTo(gx + 12, y + 13); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(gx + 6, y + 25); ctx.lineTo(gx + 16, y + 25); ctx.stroke();
+    }
+    ctx.fillStyle = '#c9a27e'; ctx.beginPath(); ctx.ellipse(x + w - 8, y + T / 2, 6, 13, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#7f5539'; ctx.beginPath(); ctx.ellipse(x + w - 8, y + T / 2, 3, 7, 0, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  function drawTurtles(it, y, speed) {
+    const d = diveState(it);
+    if (d >= 1) {
+      ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 2;
+      for (let i = 0; i < it.w / T; i++) { ctx.beginPath(); ctx.arc(it.x + i * T + T / 2, y + T / 2, 10, 0, Math.PI * 2); ctx.stroke(); }
+      return;
+    }
+    ctx.globalAlpha = 1 - d;
+    const face = speed < 0 ? -1 : 1;
+    for (let i = 0; i < it.w / T; i++) {
+      const cx = it.x + i * T + T / 2, cy = y + T / 2;
+      ctx.fillStyle = '#9bc53d';
+      ctx.beginPath(); ctx.arc(cx + face * 15, cy, 5, 0, Math.PI * 2); ctx.fill();
+      [[-9, -11], [9, -11], [-9, 11], [9, 11]].forEach(([dx, dy]) => { ctx.beginPath(); ctx.arc(cx + dx, cy + dy, 3.5, 0, Math.PI * 2); ctx.fill(); });
+      ctx.fillStyle = it.dive ? '#bc4749' : '#a1683a';
+      ctx.beginPath(); ctx.arc(cx, cy, 13, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,230,190,.55)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI * 2); ctx.stroke();
+      for (let a = 0; a < 6; a++) {
+        const ang = a * Math.PI / 3;
+        ctx.beginPath(); ctx.moveTo(cx + Math.cos(ang) * 6, cy + Math.sin(ang) * 6);
+        ctx.lineTo(cx + Math.cos(ang) * 12, cy + Math.sin(ang) * 12); ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawCar(it, y, lane) {
+    const x = it.x, w = it.w, face = lane.speed > 0 ? 1 : -1;
+    const front = face > 0 ? x + w : x;
+    if (lane.type === 'truck') {
+      ctx.fillStyle = '#e9ecef'; rr(x + 2, y + 6, w - 4, T - 12, 4); ctx.fill();
+      ctx.fillStyle = lane.color;
+      const cabX = face > 0 ? x + w - 22 : x + 2;
+      rr(cabX, y + 5, 20, T - 10, 5); ctx.fill();
+      ctx.fillStyle = '#264653'; ctx.fillRect(face > 0 ? cabX + 12 : cabX + 3, y + 10, 5, T - 20);
+      ctx.fillStyle = 'rgba(0,0,0,.15)';
+      for (let i = 0; i < 3; i++) ctx.fillRect((face > 0 ? x + 8 : x + 28) + i * 10, y + 8, 2, T - 16);
+    } else {
+      ctx.fillStyle = 'rgba(0,0,0,.35)';
+      [[8, 6], [28, 6], [8, T - 10], [28, T - 10]].forEach(([dx, dy]) => ctx.fillRect(x + dx - 3, y + dy - 1, 7, 5));
+      ctx.fillStyle = lane.color; rr(x + 3, y + 8, w - 6, T - 16, 7); ctx.fill();
+      ctx.fillStyle = '#264653'; rr(face > 0 ? x + 20 : x + 10, y + 12, 10, T - 24, 3); ctx.fill();
+    }
+    ctx.fillStyle = '#fff6c2';
+    ctx.fillRect(front - (face > 0 ? 4 : -1), y + 10, 3, 5);
+    ctx.fillRect(front - (face > 0 ? 4 : -1), y + T - 15, 3, 5);
+  }
+
+  function drawFrog(cx, cy, angleDeg, scale = 1, alpha = 1) {
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(angleDeg * Math.PI / 180); ctx.scale(scale, scale);
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#4f9a3a';
+    [[-13, 9, -0.6], [13, 9, 0.6], [-11, -9, 0.5], [11, -9, -0.5]].forEach(([x, y, r]) => {
+      ctx.save(); ctx.translate(x, y); ctx.rotate(r); ctx.beginPath(); ctx.ellipse(0, 0, 4, 8, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    });
+    ctx.fillStyle = '#7ac74f'; ctx.beginPath(); ctx.ellipse(0, 2, 11, 13, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#5aa13b'; ctx.beginPath(); ctx.arc(-4, 6, 2.5, 0, Math.PI * 2); ctx.arc(4, 9, 2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#7ac74f'; ctx.beginPath(); ctx.arc(-6, -9, 5, 0, Math.PI * 2); ctx.arc(6, -9, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#f4c95d'; ctx.beginPath(); ctx.arc(-6, -10, 3.2, 0, Math.PI * 2); ctx.arc(6, -10, 3.2, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#1b1b1b'; ctx.fillRect(-7.5, -11, 3, 2); ctx.fillRect(4.5, -11, 3, 2);
+    ctx.restore(); ctx.globalAlpha = 1;
+  }
+
+  function drawDeath() {
+    const p = 1 - deathT / 1.3, { x, y } = deathAt;
+    if (deathKind === 'water') {
+      ctx.strokeStyle = 'rgba(255,255,255,' + (1 - p) + ')'; ctx.lineWidth = 2;
+      for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(x, y, 6 + p * 22 + i * 7, 0, Math.PI * 2); ctx.stroke(); }
+    } else {
+      ctx.fillStyle = '#f4c95d';
+      for (let i = 0; i < 8; i++) {
+        const a = i * Math.PI / 4, r = 6 + p * 16;
+        ctx.beginPath(); ctx.arc(x + Math.cos(a) * r, y + Math.sin(a) * r, 3 * (1 - p) + 1, 0, Math.PI * 2); ctx.fill();
+      }
+      drawFrog(x, y, frog.dir, 1 - p * 0.4, 1 - p);
+    }
+    banner({ water: '撲通！掉進河裡', road: '小心車子！', hedge: '撞進草叢了，要跳進荷葉灣', time: '時間到了' }[deathKind]);
+  }
+
+  function banner(text, color = 'rgba(14,26,36,.8)') {
+    ctx.font = `20px ${FONT}`;
+    const w = Math.min(W - 20, ctx.measureText(text).width + 40);
+    ctx.fillStyle = color; rr(W / 2 - w / 2, 6 * T + 2, w, T - 4, 8); ctx.fill();
+    ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(text, W / 2, 6 * T + T / 2 + 1);
+  }
+
+  function render() {
+    drawBackground();
+    lanes.forEach(l => {
+      const y = l.row * T;
+      l.items.forEach(it => {
+        if (it.x + it.w < -2 || it.x > W + 2) return;
+        if (l.type === 'log') drawLog(it, y);
+        else if (l.type === 'turtle') drawTurtles(it, y, l.speed);
+        else drawCar(it, y, l);
+      });
+    });
+    if (state === 'play' || state === 'paused') {
+      drawFrog(frog.x + T / 2, frog.row * T + T / 2, frog.dir, frog.squash > 0 ? 1.15 : 1);
+    }
+    if (state === 'dying') drawDeath();
+    if (state === 'feedback') {
+      const bx = BAYS[landedBay];
+      if (landedRight) {
+        drawFrog(bx, T / 2 + 2, 180, 0.9);
+        banner('答對了！「' + cur.a + '」', 'rgba(46,125,79,.92)');
+      } else {
+        drawFrog(bx, T / 2 + 2, 180 + Math.sin(clock * 20) * 15, 0.9, 0.7);
+        ctx.strokeStyle = '#ff6b5b'; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(bx - 14, 6); ctx.lineTo(bx + 14, T - 6); ctx.moveTo(bx + 14, 6); ctx.lineTo(bx - 14, T - 6); ctx.stroke();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3;
+        rr(BAYS[correctIdx] - BAY_W / 2 - 3, 0, BAY_W + 6, T, 10); ctx.stroke();
+        banner('正確答案是「' + cur.a + '」', 'rgba(192,57,43,.92)');
+      }
+    }
+    if (state === 'clear') banner('第 ' + level + ' 關完成！');
+  }
+
+  // ---------- 介面 ----------
+  let lastHud = '';
+  function syncHud() {
+    const key = [score, best, level, lives, progress].join('|');
+    if (key !== lastHud) {
+      lastHud = key;
+      ui.score.textContent = score; ui.best.textContent = best; ui.level.textContent = level;
+      ui.prog.textContent = Math.min(progress, PER_LEVEL) + '/' + PER_LEVEL;
+      ui.lives.textContent = '●'.repeat(Math.max(0, lives)) || '—';
+    }
+    const pct = (state === 'play' || state === 'paused') ? Math.max(0, timeLeft / TIME_LIMIT) : (state === 'title' ? 1 : 0);
+    ui.bar.style.width = (pct * 100) + '%';
+    ui.bar.classList.toggle('low', pct < 0.3);
+  }
+  function showOverlay(title, text, btn, opts = {}) {
+    ui.ovTitle.textContent = title; ui.ovText.textContent = text; ui.ovBtn.textContent = btn;
+    ui.cats.hidden = !!opts.hideCats;
+    ui.ovList.hidden = true; ui.ovList.innerHTML = '';
+    if (opts.missed && opts.missed.length) {
+      opts.missed.forEach(q => {
+        const li = document.createElement('li');
+        li.innerHTML = '';
+        li.append(document.createTextNode(q.q + ' → '));
+        const b = document.createElement('b'); b.textContent = q.a; li.append(b);
+        ui.ovList.appendChild(li);
+      });
+      ui.ovList.hidden = false;
+    }
+    ui.overlay.hidden = false; ui.ovBtn.focus({ preventScroll: true });
+  }
+  function hideOverlay() { ui.overlay.hidden = true; }
+  function gameOver() {
+    state = 'over'; sfx.over(); syncHud();
+    const total = stats.right + stats.wrong;
+    let text = `得分 ${score}，最高紀錄 ${best}。答題 ${total} 次，答對 ${stats.right} 次。`;
+    if (missed.length) text += '下面是答錯的題目，複習一下吧：';
+    showOverlay('遊戲結束', text, '再玩一次', { missed });
+    GameKit.submit('frog', {
+      result: '生命用完／第' + level + '關', score: score,
+      seconds: Math.round((Date.now() - startedAt) / 1000),
+      lesson: '學華語向前走 第九冊 第十二課 網路購物要小心',
+      level: level, right: stats.right, wrong: stats.wrong,
+      missed: missed.map(q => q.q.replace('＿＿', '（' + q.a + '）')).join('；'),
+      category: CAT_LABEL[cat] || cat
+    });
+    ui.qtype.textContent = '本局結束';
+    ui.qtext.textContent = '選好題型後，按「再玩一次」重新開始。';
+    ui.qfb.hidden = true;
+  }
+  function togglePause() {
+    if (state === 'play') { state = 'paused'; ui.pauseBtn.textContent = '繼續'; showOverlay('暫停中', '題目還在上面，可以先想一想。按 P 或下方按鈕繼續。', '繼續遊戲', { hideCats: true }); }
+    else if (state === 'paused') { state = 'play'; ui.pauseBtn.textContent = '暫停'; hideOverlay(); }
+  }
+  function tryStart() {
+    const nm = $('p-name');
+    if (!nm.value.trim()) { nm.classList.add('need'); nm.placeholder = '請先寫姓名'; nm.focus(); return; }
+    nm.classList.remove('need'); newGame();
+  }
+  ui.ovBtn.addEventListener('click', () => { if (state === 'paused') togglePause(); else tryStart(); });
+  ui.pauseBtn.addEventListener('click', togglePause);
+  ui.soundBtn.addEventListener('click', () => { soundOn = !soundOn; ui.soundBtn.textContent = '音效：' + (soundOn ? '開' : '關'); });
+  ui.cats.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    cat = b.dataset.cat;
+    ui.cats.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+
+  const KEYMAP = { ArrowUp:'up', ArrowDown:'down', ArrowLeft:'left', ArrowRight:'right', w:'up', s:'down', a:'left', d:'right', W:'up', S:'down', A:'left', D:'right' };
+  window.addEventListener('keydown', e => {
+    const tag = e.target && e.target.tagName;
+    if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+    if (KEYMAP[e.key]) { e.preventDefault(); if (!e.repeat) move(KEYMAP[e.key]); }
+    else if (e.key === 'p' || e.key === 'P') togglePause();
+    else if (e.key === 'Enter' && (state === 'title' || state === 'over') && document.activeElement === document.body) { e.preventDefault(); tryStart(); }
+  });
+  document.querySelectorAll('.pad button').forEach(b => b.addEventListener('pointerdown', e => { e.preventDefault(); move(b.dataset.dir); }));
+
+  let touchStart = null;
+  canvas.addEventListener('pointerdown', e => { touchStart = { x: e.clientX, y: e.clientY }; });
+  canvas.addEventListener('pointerup', e => {
+    if (!touchStart) return;
+    const dx = e.clientX - touchStart.x, dy = e.clientY - touchStart.y; touchStart = null;
+    if (Math.hypot(dx, dy) < 12) { move('up'); return; }
+    if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 'right' : 'left'); else move(dy > 0 ? 'down' : 'up');
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'play') togglePause(); });
+
+  GameKit.bindPlayer($('p-name'), $('p-school'), $('p-class'));
+  $('p-name').addEventListener('input', () => $('p-name').classList.remove('need'));
+  GameKit.onStatus((msg, cls) => { const el = $('sync'); el.textContent = msg; el.className = 'sync' + (cls ? ' ' + cls : ''); });
+
+  // ---------- 主迴圈 ----------
+  buildLanes(1); resetFrog(); syncHud();
+  let last = performance.now();
+  function loop(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (state !== 'paused') update(dt);
+    render(); syncHud();
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
