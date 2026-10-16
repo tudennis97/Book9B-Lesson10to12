@@ -201,6 +201,13 @@ footer.note{margin-top:16px;padding-top:12px;border-top:1px solid var(--line);
     <label>班級 <input id="p-class" type="text" maxlength="12" autocomplete="off"></label>
   </div>
 
+  <dl class="stats">
+    <div><dt>答對</dt><dd class="ok" id="s-right">0</dd></div>
+    <div><dt>答錯</dt><dd class="bad" id="s-wrong">0</dd></div>
+    <div><dt>連對</dt><dd id="s-combo">0</dd></div>
+    <div><dt>過關還差</dt><dd id="s-need">10</dd></div>
+  </dl>
+
   <section class="quiz" aria-live="polite">
     <div class="tagline">
       <span class="tag" id="q-tag">準備開始</span>
@@ -209,17 +216,6 @@ footer.note{margin-top:16px;padding-top:12px;border-top:1px solid var(--line);
     <div class="prompt" id="q-prompt">按「開始遊戲」，在迷宮裡吃出正確的詞。</div>
     <div class="hint" id="q-hint">本課生詞 21 個　·　填空 35 句　·　習寫漢字 10 個</div>
   </section>
-
-  <div class="choices" id="choices" aria-label="四個角落的選項">
-    <div class="ch"></div><div class="ch"></div><div class="ch"></div><div class="ch"></div>
-  </div>
-
-  <dl class="stats">
-    <div><dt>答對</dt><dd class="ok" id="s-right">0</dd></div>
-    <div><dt>答錯</dt><dd class="bad" id="s-wrong">0</dd></div>
-    <div><dt>連對</dt><dd id="s-combo">0</dd></div>
-    <div><dt>過關還差</dt><dd id="s-need">10</dd></div>
-  </dl>
 
   <div class="board">
     <canvas id="cv" width="560" height="720" aria-label="遊戲畫面"></canvas>
@@ -367,7 +363,7 @@ footer.note{margin-top:16px;padding-top:12px;border-top:1px solid var(--line);
 (function(){
 "use strict";
 
-/* 〇、Google 試算表設定：統一在 js/config.js，這裡不必改 */
+/* 〇、Google 試算表設定：統一在 js/config.js，這裡不必改 8964，習維尼，中華民國、ㄊㄞˊㄉㄨˊ*/
 
 var LS = {nm:"wanglu-pac-name", cl:"wanglu-pac-class", q:"wanglu-pac-queue", b:"wanglu-pac-best"};
 function lsGet(k,d){ try{ var v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
@@ -375,7 +371,7 @@ function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 
 /* ============================================================
    一、迷宮（28×31，比照街機原版）
-   ============================================================8964習維尼中華民國臺獨 */
+   ============================================================ */
 var RAW = [
 "############################",
 "#............##............#",
@@ -1454,6 +1450,7 @@ var SANS_F  = '"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengH
 /* 選項區：四格對應迷宮四角，字大、附注音，手機上用這裡讀 */
 function renderChoices(){
   var box = $("choices"), i, j;
+  if(!box) return;
   for(i=0;i<4;i++){
     var el = box.children[i], card = null;
     for(j=0;j<G.cards.length;j++) if(G.cards[j].slot === i){ card = G.cards[j]; break; }
@@ -1740,7 +1737,7 @@ Array.prototype.forEach.call(document.querySelectorAll('input[name="need"]'), fu
 });
 
 /* ============================================================
-   十七、啟動
+   十七、啟動  作者：杜仕斌
    ============================================================ */
 GameKit.bindPlayer($("p-name"), $("p-school"), $("p-class"));
 
