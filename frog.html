@@ -11,7 +11,7 @@
 :root{
   --bg:#dde8ec; --panel:#ffffff; --ink:#1f2a36; --muted:#55687a; --accent:#d9971a;
   --line:#b7c8d1; --btn:#2f4858; --btnink:#ffffff; --bar:#6a994e; --barlow:#d1495b;
-  --good:#2e7d4f; --bad:#c0392b; --goodbg:#e3f3e8; --badbg:#fbe7e4;
+  --good:#2e7d4f; --bad:#c0392b; --goodbg:#e3f3e8; --badbg:#fbe7e4; --hl:#8a4f00;
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -21,14 +21,14 @@
   :root:not([data-theme="light"]){
     --bg:#162029; --panel:#213040; --ink:#e7eef3; --muted:#9db0bf; --accent:#f4c95d;
     --line:#33495b; --btn:#3d5c71; --btnink:#ffffff; --bar:#8cc06a; --barlow:#ef6f7f;
-    --good:#8fd9a8; --bad:#ff9b8f; --goodbg:#1f3a2c; --badbg:#41262a;
+    --good:#8fd9a8; --bad:#ff9b8f; --goodbg:#1f3a2c; --badbg:#41262a; --hl:#f4c95d;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#162029; --panel:#213040; --ink:#e7eef3; --muted:#9db0bf; --accent:#f4c95d;
   --line:#33495b; --btn:#3d5c71; --btnink:#ffffff; --bar:#8cc06a; --barlow:#ef6f7f;
-  --good:#8fd9a8; --bad:#ff9b8f; --goodbg:#1f3a2c; --badbg:#41262a;
+  --good:#8fd9a8; --bad:#ff9b8f; --goodbg:#1f3a2c; --badbg:#41262a; --hl:#f4c95d;
   color-scheme:dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -113,6 +113,47 @@ canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:none
 @media (max-width:420px){ .player{grid-template-columns:1fr 1fr} .player .school{grid-column:1/-1;order:3} }
 .sync{min-height:1.4em;font-size:.88rem;color:var(--muted);text-align:center;margin:6px 0 0}
 .sync.ok{color:var(--good)} .sync.bad{color:var(--bad)} .sync.busy{color:var(--accent)}
+
+/* 複習區與排行榜 */
+.review-title{font-size:1.15rem;margin:22px 0 8px;letter-spacing:.04em}
+details.box{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
+details.box>summary{cursor:pointer;padding:9px 14px;font-weight:700;list-style-position:inside}
+details.box>summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:10px}
+details.box .body{padding:0 14px 12px;font-size:.95rem;line-height:1.8}
+.hintline{color:var(--muted);font-size:.85rem;margin:0 0 8px}
+.scroll{overflow-x:auto}
+.tbl{border-collapse:collapse;width:100%;font-size:.92rem}
+.tbl th,.tbl td{padding:5px 7px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.tbl th{color:var(--muted);font-weight:400;font-size:.82rem}
+.tbl .sc{text-align:right;font-variant-numeric:tabular-nums}
+.tbl .r{color:var(--muted)}
+.vocab td{white-space:normal;vertical-align:top}
+.vocab .w{font-size:1.15rem;font-weight:700;display:block;white-space:nowrap}
+.vocab .z{font-size:.8rem;color:var(--hl);display:block;white-space:nowrap}
+.vocab .p{display:block}
+.vocab .e{display:block;color:var(--muted);font-size:.85rem}
+.lb-tools{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.lb-tools button{padding:4px 12px;font-size:.88rem}
+.text h3{font-size:1rem;margin:10px 0 4px;color:var(--hl)}
+h3.sub{font-size:.95rem;margin:8px 0 4px;color:var(--hl)}
+.tips-list{margin:0;padding-left:1.4em}
+.dlg{display:grid;grid-template-columns:auto 1fr auto;gap:2px 6px;align-items:start;margin-bottom:8px}
+.dlg .who{font-weight:700;white-space:nowrap}
+.dlg .who.m{color:#c0392b} .dlg .who.f{color:#2e7d4f}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .dlg .who.m{color:#ff9b8f} :root:not([data-theme="light"]) .dlg .who.f{color:#8fd9a8} }
+.essay p{text-indent:2em;margin:0 0 10px}
+.say{background:transparent;color:var(--muted);border:1px solid var(--line);padding:0 7px;font-size:.85rem;line-height:1.7}
+.essay-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.text p{margin:0 0 4px}
+.text b,.pattern b{color:var(--hl)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;flex-direction:column;align-items:center;min-width:64px;padding:4px 8px;
+  border:1px solid var(--line);border-radius:8px;font-size:1.5rem;line-height:1.3}
+.chip small{font-size:.7rem;color:var(--muted);white-space:nowrap}
+.pattern{margin:0;padding-left:1.4em}
+.pattern li{margin-bottom:8px}
+.pattern .ex{display:block;color:var(--ink)}
+.pattern .ex::before{content:"例：";color:var(--muted)}
 @media (max-width:420px){
   .qbox{font-size:1.15rem;min-height:5.6em}
   .hud b{font-size:1rem}
@@ -127,6 +168,7 @@ canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:none
     <div class="tools">
       <button id="pauseBtn" type="button">暫停</button>
       <button id="soundBtn" type="button">音效：開</button>
+      <button id="rankBtn" type="button">🏆 排行榜</button>
     </div>
   </header>
 
@@ -179,13 +221,77 @@ canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:none
   </div>
 
   <p class="help">鍵盤用方向鍵或 WASD 移動，P 暫停。手機可在畫面上滑動，輕點一下往前跳。五個選項寫在畫面最上方的荷葉灣裡。跳錯答案會失去一條命，這題稍後還會再出現。紅殼烏龜會潛水，變淡時要快跳開。</p>
+
+  <details class="box" id="lb-box">
+    <summary>🏆 排行榜（讀取試算表）</summary>
+    <div class="body">
+      <div class="lb-tools"><button type="button" id="lbReload">重新整理</button></div>
+      <p class="hintline" id="lb-msg">展開後會從試算表讀取每個人的最高分。</p>
+      <div class="scroll"><table class="tbl" id="lb-table"></table></div>
+    </div>
+  </details>
+
+  <h2 class="review-title">第十二課複習</h2>
+
+  <details class="box">
+    <summary>學習目標</summary>
+    <div class="body">
+      <p class="hintline">語言功能：提醒、建議、介紹、比較</p>
+      <ol class="tips-list">
+        <li>能了解網路購物的優點與缺點。</li>
+        <li>能了解上網購物時應注意的問題。</li>
+        <li>能了解元宵節的習俗與活動。</li>
+        <li>能比較古代與現代慶祝元宵節方式有何不同。</li>
+      </ol>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>課文：網路購物要小心</summary>
+    <div class="body text" id="rv-dialog"></div>
+  </details>
+
+  <details class="box">
+    <summary>短文：熱鬧的元宵節燈會</summary>
+    <div class="body text" id="rv-essay"></div>
+  </details>
+
+  <details class="box">
+    <summary>生詞（<span id="rv-wcount"></span>）</summary>
+    <div class="body">
+      <h3 class="sub">補充生詞／短語</h3>
+      <div class="scroll"><table class="tbl vocab" id="rv-words-new"></table></div>
+      <h3 class="sub">課文複習詞語</h3>
+      <p class="hintline">前幾課學過、本課課文和練習再次用到的詞語。英文為參考翻譯。</p>
+      <div class="scroll"><table class="tbl vocab" id="rv-words"></table></div>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>我會念（<span id="rv-ccount"></span>）</summary>
+    <div class="body">
+      <p class="hintline">課本「我會念」的 20 個字，字的下面是拼音、注音和本課的用法。</p>
+      <div class="chips" id="rv-chars"></div>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>句型</summary>
+    <div class="body">
+      <h3 class="sub">課文句型</h3>
+      <ol class="pattern" id="rv-patterns"></ol>
+      <h3 class="sub">練習參考句型</h3>
+      <p class="hintline">課本練習 Part II 列出的參考句型；標「自編」的例句不在課文中，僅供參考。</p>
+      <ol class="pattern" id="rv-patterns2"></ol>
+    </div>
+  </details>
 </main>
 
 <script src="js/config.js"></script>
 <script src="js/gamekit.js"></script>
 <script>
 (() => {
-  // ================= 題庫：第十二課 網路購物要小心（複習二） =================8964習維尼中華民國臺獨
+  // ================= 題庫：第十二課 網路購物要小心（複習二） 8964 習近平 臺灣獨立 中華民國=================
   // t: cloze 生詞填空 / meaning 詞義 / comp 閱讀理解；q 題目（＿＿為空格）；a 答案；d 四個誘答；n 解說（可省略）
   const BANK = [
     { t:'cloze', q:'這個購物網站正在＿＿日用品，我們要不要買一些？', a:'促銷', d:['退貨','服務','運費','比較'] },
@@ -763,6 +869,133 @@ canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:none
     if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 'right' : 'left'); else move(dy > 0 ? 'down' : 'up');
   });
   document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'play') togglePause(); });
+
+  // ================= 第十二課複習資料（依課本 9B 第十二課） =================
+  const DIALOG = [
+    ['方晨','f','媽，這個購物網站正在促銷日用品，我們要不要買一些？'],
+    ['媽媽','m','牙膏、洗髮精都還沒用光，而且網站那些牌子沒用過，萬一買到不滿意的東西怎麼辦？'],
+    ['方晨','f','只要仔細地挑，應該不會吧？'],
+    ['媽媽','m','不一定。你記不記得上次爸爸在賣藝術品的網站上買了一幅畫？'],
+    ['方晨','f','我記得。那時候爸爸說網站上的圖片很漂亮，看起來栩栩如生。'],
+    ['媽媽','m','是啊，爸爸挑了好幾個小時才決定。他收到以後仔細一看，發現跟本來的圖片差了很多。'],
+    ['方晨','f','既然他不滿意就退貨啊！很多購物網站都有退貨的服務。'],
+    ['媽媽','m','雖然可以退貨，但是還要再付運費。所以現在不論東西看起來多麼好，爸爸都不願意買了。'],
+    ['方晨','f','他們常常以各式各樣的方式來吸引客人，買東西以前一定要多比較。不能因為省時就買了太多東西。']
+  ];
+  const ESSAY = [
+    '元宵節是華人重要的節日之一。古代人在元宵節那天會先把紙做成燈籠，然後再把謎語貼在燈籠上讓大家猜。謎語是一種有趣的文字遊戲，常常用一句話來猜一個字或一樣東西，例如：「給一半，留一半」，猜一個字，答案是「細」。有的人猜燈謎很拿手，常常一下子就猜出來了。',
+    '現在，住在世界各地的華人，在元宵節這天，常以燈會的方式來介紹傳統文化和習俗。各式各樣的花燈吸引了成千上萬的人來參觀，熱鬧的氣氛讓大家體驗了元宵節的樂趣，華人的燈會也漸漸變成當地一個重要的活動了。',
+    '但是熱鬧的燈會也帶來了一些問題。參觀的人可能多達幾萬人，人一多，垃圾就多，會影響環境。而且，萬一不小心跌倒，還可能受傷。所以參加燈會時，不只要注意安全，離開的時候也不要留下垃圾。'
+  ];
+  // 補充生詞（課本第 104 頁，英文為課本英譯）
+  const NEW_WORDS = [
+    ['牌子','ㄆㄞˊ ˙ㄗ','pái zi','brand'],
+    ['差','ㄔㄚ','chā','differ'],
+    ['多麼','ㄉㄨㄛ ˙ㄇㄜ','duō me','how'],
+    ['客人','ㄎㄜˋ ㄖㄣˊ','kè rén','customer']
+  ];
+  // 課文複習詞語：[詞, 注音, 拼音, 參考英文]
+  const REVIEW_WORDS = [
+    ['購物','ㄍㄡˋ ㄨˋ','gòu wù','shopping'],
+    ['網站','ㄨㄤˇ ㄓㄢˋ','wǎng zhàn','website'],
+    ['促銷','ㄘㄨˋ ㄒㄧㄠ','cù xiāo','sales promotion'],
+    ['日用品','ㄖˋ ㄩㄥˋ ㄆㄧㄣˇ','rì yòng pǐn','daily necessities'],
+    ['牙膏','ㄧㄚˊ ㄍㄠ','yá gāo','toothpaste'],
+    ['洗髮精','ㄒㄧˇ ㄈㄚˇ ㄐㄧㄥ','xǐ fǎ jīng','shampoo'],
+    ['萬一','ㄨㄢˋ ㄧ','wàn yī','in case'],
+    ['滿意','ㄇㄢˇ ㄧˋ','mǎn yì','satisfied'],
+    ['仔細','ㄗˇ ㄒㄧˋ','zǐ xì','careful; carefully'],
+    ['挑','ㄊㄧㄠ','tiāo','choose, pick'],
+    ['藝術品','ㄧˋ ㄕㄨˋ ㄆㄧㄣˇ','yì shù pǐn','work of art'],
+    ['幅','ㄈㄨˊ','fú','measure word for paintings'],
+    ['圖片','ㄊㄨˊ ㄆㄧㄢˋ','tú piàn','picture'],
+    ['栩栩如生','ㄒㄩˇ ㄒㄩˇ ㄖㄨˊ ㄕㄥ','xǔ xǔ rú shēng','lifelike'],
+    ['退貨','ㄊㄨㄟˋ ㄏㄨㄛˋ','tuì huò','return goods'],
+    ['服務','ㄈㄨˊ ㄨˋ','fú wù','service'],
+    ['運費','ㄩㄣˋ ㄈㄟˋ','yùn fèi','shipping cost'],
+    ['不論','ㄅㄨˋ ㄌㄨㄣˋ','bú lùn','no matter'],
+    ['比較','ㄅㄧˇ ㄐㄧㄠˋ','bǐ jiào','compare'],
+    ['省時','ㄕㄥˇ ㄕˊ','shěng shí','save time'],
+    ['燈籠','ㄉㄥ ㄌㄨㄥˊ','dēng lóng','lantern'],
+    ['謎語','ㄇㄧˊ ㄩˇ','mí yǔ','riddle'],
+    ['猜','ㄘㄞ','cāi','guess'],
+    ['答案','ㄉㄚˊ ㄢˋ','dá àn','answer'],
+    ['拿手','ㄋㄚˊ ㄕㄡˇ','ná shǒu','good at'],
+    ['燈會','ㄉㄥ ㄏㄨㄟˋ','dēng huì','lantern fair'],
+    ['習俗','ㄒㄧˊ ㄙㄨˊ','xí sú','custom'],
+    ['各式各樣','ㄍㄜˋ ㄕˋ ㄍㄜˋ ㄧㄤˋ','gè shì gè yàng','all kinds of'],
+    ['成千上萬','ㄔㄥˊ ㄑㄧㄢ ㄕㄤˋ ㄨㄢˋ','chéng qiān shàng wàn','tens of thousands'],
+    ['熱鬧','ㄖㄜˋ ˙ㄋㄠ','rè nao','lively, bustling'],
+    ['體驗','ㄊㄧˇ ㄧㄢˋ','tǐ yàn','experience'],
+    ['多達','ㄉㄨㄛ ㄉㄚˊ','duō dá','as many as'],
+    ['垃圾','ㄌㄜˋ ㄙㄜˋ','lè sè','garbage'],
+    ['安全','ㄢ ㄑㄩㄢˊ','ān quán','safety; safe']
+  ];
+  // 課文句型：例句取自課文
+  const PATTERNS = [
+    ['以……的方式來……','by means of…','他們常常<b>以</b>各式各樣<b>的方式來</b>吸引客人。','華人在元宵節這天，常<b>以</b>燈會<b>的方式來</b>介紹傳統文化和習俗。'],
+    ['仔細一＋V','take a close (look)…','他收到以後<b>仔細一</b>看，發現跟本來的圖片差了很多。'],
+    ['萬一……','in case…','<b>萬一</b>買到不滿意的東西怎麼辦？','而且，<b>萬一</b>不小心跌倒，還可能受傷。'],
+    ['不只……，也……','not only…, but also…','參加燈會時，<b>不只</b>要注意安全，離開的時候<b>也</b>不要留下垃圾。'],
+    ['既然……就……','since…, then…','<b>既然</b>他不滿意<b>就</b>退貨啊！'],
+    ['雖然……但是……','although…','<b>雖然</b>可以退貨，<b>但是</b>還要再付運費。'],
+    ['不論……都……','no matter…','現在<b>不論</b>東西看起來多麼好，爸爸<b>都</b>不願意買了。'],
+    ['先……，然後再……','first…, then…','古代人在元宵節那天會<b>先</b>把紙做成燈籠，<b>然後再</b>把謎語貼在燈籠上讓大家猜。']
+  ];
+  // 練習參考句型（課本第 109、111 頁）
+  const PATTERNS2 = [
+    ['既……又……','both… and…','購物網站常常有促銷活動，<b>既</b>省時<b>又</b>方便。（練習短文）'],
+    ['即使……也……','even if…','<b>即使</b>網站上的圖片很漂亮，<b>也</b>要仔細比較再買。（自編）'],
+    ['最……的是……','the most… is…','元宵節<b>最</b>有趣<b>的是</b>猜燈謎。（自編）'],
+    ['跟……比起來','compared with…','<b>跟</b>古代<b>比起來</b>，現在的元宵節燈會熱鬧多了。（自編）'],
+    ['趁……的時候','take the chance when…','媽媽<b>趁</b>網站促銷<b>的時候</b>，買了很多日用品。（自編）'],
+    ['一般來說','generally speaking','<b>一般來說</b>，網路購物不滿意可以退貨。（自編）'],
+    ['不只……（連……）也……','not only… (even…) also…','網路上<b>不只</b>可以買日用品，<b>連</b>藝術品<b>也</b>買得到。（自編）']
+  ];
+
+  const escH = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const sayBtn = t => '<button type="button" class="say" data-say="' + escH(t) + '" aria-label="朗讀">🔊</button>';
+  $('rv-dialog').innerHTML = DIALOG.map(d =>
+    '<div class="dlg"><span class="who ' + d[1] + '">' + escH(d[0]) + '：</span><span>' + escH(d[2]) + '</span>' + sayBtn(d[2]) + '</div>').join('');
+  $('rv-essay').innerHTML = '<div class="essay-h"><h3>熱鬧的元宵節燈會</h3>' + sayBtn(ESSAY.join('')) + '</div>' +
+    '<div class="essay">' + ESSAY.map(p => '<p>' + escH(p) + '</p>').join('') + '</div>';
+  const wordRows = list => '<tr><th>詞語／注音</th><th>拼音／英文</th></tr>' +
+    list.map(w => '<tr><td><span class="w">' + escH(w[0]) + '</span><span class="z">' + escH(w[1]) +
+      '</span></td><td><span class="p">' + escH(w[2]) + '</span><span class="e">' + escH(w[3]) + '</span></td></tr>').join('');
+  $('rv-wcount').textContent = (NEW_WORDS.length + REVIEW_WORDS.length) + ' 個';
+  $('rv-words-new').innerHTML = wordRows(NEW_WORDS);
+  $('rv-words').innerHTML = wordRows(REVIEW_WORDS);
+  $('rv-ccount').textContent = CHARS.length + ' 個';
+  $('rv-chars').innerHTML = CHARS.map(c => '<span class="chip">' + escH(c[0]) + '<small>' + escH(c[1]) + '　' +
+    escH(c[2]) + '</small><small>' + escH(c[3]) + '</small></span>').join('');
+  const patHTML = list => list.map(p =>
+    '<li><b>' + escH(p[0]) + '</b>　<small style="color:var(--muted)">' + escH(p[1]) + '</small>' +
+    p.slice(2).map(x => '<span class="ex">' + x + '</span>').join('') + '</li>').join('');
+  $('rv-patterns').innerHTML = patHTML(PATTERNS);
+  $('rv-patterns2').innerHTML = patHTML(PATTERNS2);
+
+  // 朗讀（使用裝置內建的中文語音）
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.say'); if (!b) return;
+    if (!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(b.dataset.say);
+    u.lang = 'zh-TW'; u.rate = 0.85;
+    const v = speechSynthesis.getVoices().find(x => /zh[-_]TW/i.test(x.lang)) || speechSynthesis.getVoices().find(x => /^zh/i.test(x.lang));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  });
+
+  // ================= 排行榜 =================
+  const loadRank = () => GameKit.renderLeaderboard('frog', $('lb-msg'), $('lb-table'), '答對');
+  $('lb-box').addEventListener('toggle', function(){ if (this.open) loadRank(); });
+  $('lbReload').addEventListener('click', loadRank);
+  $('rankBtn').addEventListener('click', () => {
+    if (state === 'play') togglePause();
+    const box = $('lb-box');
+    if (box.open) loadRank(); else box.open = true;
+    box.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
 
   GameKit.bindPlayer($('p-name'), $('p-school'), $('p-class'));
   $('p-name').addEventListener('input', () => $('p-name').classList.remove('need'));

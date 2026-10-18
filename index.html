@@ -25,7 +25,7 @@ h1{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,6vw,2.3rem);l
   line-height:1.25;margin:0 0 4px}
 .sub{margin:0 0 22px;color:var(--muted);font-size:.9rem}
 
-/* 玩家證：整頁唯一的亮色物件8964習維尼中華民國臺獨 */
+/* 玩家證：整頁唯一的亮色物件 8964 習近平是維尼熊 台獨*/
 .pass{position:relative;background:var(--pass);color:var(--pass-ink);border-radius:10px;
   padding:16px 18px 14px;margin-bottom:26px}
 .pass::before,.pass::after{content:"";position:absolute;top:50%;width:18px;height:18px;margin-top:-9px;
@@ -126,7 +126,7 @@ code{font-size:.85em;background:var(--night-2);padding:1px 5px;border-radius:4px
   <details class="teacher">
     <summary>老師專區：試算表連線</summary>
     <div class="body">
-      <p>試算表網址與通行碼寫在 <code>js/config.js</code>。每一局會記錄姓名、學校、班級、IP 位址、結果與分數，
+      <p>每一局會記錄姓名、學校、班級、結果與分數，
         三個遊戲分別寫進同一份試算表的「故宮詞語空戰」「網路購物吃豆人」「跳跳蛙過河」工作表。</p>
       <button id="btn-test">測試連線</button><button id="btn-flush">補傳本機暫存成績</button>
       <div class="sync" id="sync"></div>
@@ -144,7 +144,7 @@ code{font-size:.85em;background:var(--night-2);padding:1px 5px;border-radius:4px
 
   $("btn-test").addEventListener("click", function(){
     var el = $("sync");
-    if(!GameKit.hasEndpoint()){ el.textContent = "還沒有設定試算表網址：請在 js/config.js 填入 ENDPOINT。"; el.className = "sync bad"; return; }
+    if(!GameKit.hasEndpoint()){ el.textContent = "還沒有設定試算表網址：請填入 ENDPOINT。"; el.className = "sync bad"; return; }
     el.textContent = "測試連線中…"; el.className = "sync busy";
     GameKit.test().then(function(o){
       if(o && o.ok && o.games){
